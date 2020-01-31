@@ -1,0 +1,32 @@
+{
+  "name": "gridboard",
+  "version": "1.0.0",
+  "description": "A Grid-Based Games Framework For TypeScript/JavaScript",
+  "main": "lib/GridBoard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fixiabis/GridBoard.git"
+  },
+  "keywords": [
+    "gridboard",
+    "grid-based",
+    "board-game",
+    "board",
+    "game",
+    "chess"
+  ],
+  "author": "fixiabis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fixiabis/GridBoard/issues"
+  },
+  "homepage": "https://github.com/fixiabis/GridBoard#readme",
+  "devDependencies": {
+    "rollup": "^1.31.0",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "typescript": "^3.7.5"
+  }
+}
