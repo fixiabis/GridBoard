@@ -15,7 +15,7 @@ export default [
     ],
 
     output: {
-      file: 'lib/GridBoard.js',
+      file: 'lib/index.js',
       format: 'cjs',
       indent: true
     }
