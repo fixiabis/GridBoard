@@ -1,10 +1,10 @@
 import Grid from "./Grid";
 
 class GridBoard<GridBody> {
-    public width: number;
-    public height: number;
-    public length: number;
-    public grids: Grid<GridBody>[];
+    public readonly width: number;
+    public readonly height: number;
+    public readonly length: number;
+    public readonly grids: Grid<GridBody>[];
 
     constructor(width: number, height: number) {
         this.width = width;

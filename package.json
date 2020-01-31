@@ -1,6 +1,6 @@
 {
   "name": "gridboard",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A Grid-Based Games Framework For TypeScript/JavaScript",
   "main": "lib/index.js",
   "scripts": {

@@ -2,11 +2,11 @@ import GridBoard from "./GridBoard";
 import GridDirection from "./GridDirection";
 
 class Grid<GridBody> {
-    public x: number;
-    public y: number;
-    public i: number;
+    public readonly x: number;
+    public readonly y: number;
+    public readonly i: number;
     public body: GridBody | null;
-    public board: GridBoard<GridBody>;
+    public readonly board: GridBoard<GridBody>;
 
     constructor(x: number, y: number, board: GridBoard<GridBody>) {
         this.x = x;
