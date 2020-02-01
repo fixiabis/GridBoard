@@ -31,9 +31,9 @@ export default [
     ],
 
     output: {
-      file: 'dist/GridBoard.js',
+      file: 'dist/gridboard.js',
       format: 'umd',
-      name: 'GridBoard',
+      name: 'gridboard',
       indent: true
     }
   }
