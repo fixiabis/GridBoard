@@ -9,7 +9,7 @@ npm install --save gridboard
 ```
 
 Also available UMD package defines a ```window.gridboard``` global variable.
-Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@1.0.5/dist/gridboard.js
+Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@1.0.6/dist/gridboard.js
 
 ### Create A Chess Board (TypeScript)
 
@@ -55,15 +55,24 @@ gridInA1.body = whiteRook;
 
 ###  Get Grid By Use GridDirection
 
+support common direction
+
+F: forward of grid
+B: backward of grid
+R: right of grid
+L: left of grid
+
+Format(HEX): 0xFBRL, 0x5000 means forward 5 units of grid
+
 ```javascript
 let gridInE1 = board.getGridByAbsoluteCoordinate(4, 0); // white king placed
 
-// backwards of king
+// backward of king
 gridInE1.getGridByDirection(GridDirection.B);
 
 let gridInB1 = board.getGridByAbsoluteCoordinate(1, 0); // white knight placed
 
-// knight next steps
+// knight next steps can move
 gridInB1.getGridByDirection(GridDirection.BRR);
 gridInB1.getGridByDirection(GridDirection.BBR);
 gridInB1.getGridByDirection(GridDirection.BBL);
