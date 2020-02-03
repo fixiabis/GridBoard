@@ -1,4 +1,5 @@
 import typescript from 'rollup-plugin-typescript2';
+import { uglify } from 'rollup-plugin-uglify';
 
 let defaults = { compilerOptions: { declaration: true } };
 let override = { compilerOptions: { declaration: false } };
@@ -32,6 +33,24 @@ export default [
 
     output: {
       file: 'dist/gridboard.js',
+      format: 'umd',
+      name: 'gridboard',
+      indent: true
+    }
+  },
+  {
+    input: './src/index.ts',
+
+    plugins: [
+      typescript({
+        tsconfig: "tsconfig.json",
+        tsconfigDefaults: override,
+      }),
+      uglify()
+    ],
+
+    output: {
+      file: 'dist/gridboard.min.js',
       format: 'umd',
       name: 'gridboard',
       indent: true

@@ -22,7 +22,7 @@ class Grid<GridBody> {
         let r = (0x00F0 & direction) >> 4;
         let l = (0x000F & direction);
 
-        return this.getGridByRelativeCoordinate(b - f, r - l);
+        return this.getGridByRelativeCoordinate(r - l, b - f);
     }
 
     public getGridByRelativeCoordinate(dx: number, dy: number): Grid<GridBody> | null {

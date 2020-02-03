@@ -1,6 +1,6 @@
 {
   "name": "gridboard",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A Grid-Based Games Framework For TypeScript/JavaScript",
   "main": "lib/index.js",
   "scripts": {
@@ -33,6 +33,7 @@
   "devDependencies": {
     "rollup": "^1.31.0",
     "rollup-plugin-typescript2": "^0.25.3",
+    "rollup-plugin-uglify": "^6.0.4",
     "typescript": "^3.7.5"
   }
 }
