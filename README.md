@@ -33,24 +33,24 @@ Chess can store in ```grid.body```
 
 ```javascript
 // place white pawn on A2
-let gridInA2 = board.getGridByAbsoluteCoordinate(0, 1);
+let gridAtA2 = board.getGridByAbsoluteCoordinate(0, 1);
 
 let whitePawn = {
     color: "white",
     type: "pawn"
 };
 
-gridInA2.body = whitePawn;
+gridAtA2.body = whitePawn;
 
 // place white rook on A1
-let gridInA1 = gridInA2.getGridByRelativeCoordinate(0, -1);
+let gridAtA1 = gridAtA2.getGridByRelativeCoordinate(0, -1);
 
 let whiteRook = {
     color: "white",
     type: "rook"
 };
 
-gridInA1.body = whiteRook;
+gridAtA1.body = whiteRook;
 ```
 
 ###  Get Grid By Use GridDirection
@@ -65,15 +65,15 @@ L: left of grid
 Format(HEX): 0xFBRL, 0x5000 means forward 5 units of grid
 
 ```javascript
-let gridInE1 = board.getGridByAbsoluteCoordinate(4, 0); // white king placed
+let gridAtE1 = board.getGridByAbsoluteCoordinate(4, 0); // white king placed
 
 // backward of king
-gridInE1.getGridByDirection(GridDirection.B);
+gridAtE1.getGridByDirection(GridDirection.B);
 
-let gridInB1 = board.getGridByAbsoluteCoordinate(1, 0); // white knight placed
+let gridAtB1 = board.getGridByAbsoluteCoordinate(1, 0); // white knight placed
 
 // knight next steps can move
-gridInB1.getGridByDirection(GridDirection.BRR);
-gridInB1.getGridByDirection(GridDirection.BBR);
-gridInB1.getGridByDirection(GridDirection.BBL);
+gridAtB1.getGridByDirection(GridDirection.BRR);
+gridAtB1.getGridByDirection(GridDirection.BBR);
+gridAtB1.getGridByDirection(GridDirection.BBL);
 ```
