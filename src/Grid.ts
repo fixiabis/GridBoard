@@ -19,8 +19,8 @@ class Grid<GridBody> {
     public getGridByDirection(direction: GridDirection | number): Grid<GridBody> | null {
         let f = (0xF000 & direction) >> 12;
         let b = (0x0F00 & direction) >> 8;
-        let r = (0x00F0 & direction) >> 4;
-        let l = (0x000F & direction);
+        let l = (0x00F0 & direction) >> 4;
+        let r = (0x000F & direction);
 
         return this.getGridByRelativeCoordinate(r - l, b - f);
     }

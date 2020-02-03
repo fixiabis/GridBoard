@@ -62,7 +62,7 @@ B: backward of grid
 R: right of grid  
 L: left of grid
 
-Format(HEX): 0xFBRL, 0x5000 means forward 5 units of grid
+Format(HEX): 0xFBLR, 0x5000 means forward 5 units of grid
 
 ```javascript
 let gridAtE1 = board.getGridByAbsoluteCoordinate(4, 0); // white king placed
