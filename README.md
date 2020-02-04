@@ -113,14 +113,14 @@ board.orientation = GridOrientation.BFLR; // chess board coordinate
 let gridAtE1 = board.getGridByAbsoluteCoordinate(4, 0); // white king placed
 
 // forward of king
-gridAtE1.getGridByDirection(GridDirection.F);
+gridAtE1.getGridByDirectionFromOrientation(GridDirection.F);
 
 let gridAtB1 = board.getGridByAbsoluteCoordinate(1, 0); // white knight placed
 
 // knight possible moves
-gridAtB1.getGridByDirection(GridDirection.FRR);
-gridAtB1.getGridByDirection(GridDirection.FFR);
-gridAtB1.getGridByDirection(GridDirection.FFL);
+gridAtB1.getGridByDirectionFromOrientation(GridDirection.FRR);
+gridAtB1.getGridByDirectionFromOrientation(GridDirection.FFR);
+gridAtB1.getGridByDirectionFromOrientation(GridDirection.FFL);
 
 //     A   B   C   D  
 //   +---+---+---+---+
