@@ -1,12 +1,12 @@
 enum GridOrientation {
-    FBLR = 0x000,
-    FBRL = 0x001,
-    BFLR = 0x010,
-    BFRL = 0x011,
-    LRFB = 0x100,
-    LRBF = 0x110,
-    RLFB = 0x101,
-    RLBF = 0x111,
+    FBLR = 0b000,
+    FBRL = 0b001,
+    BFLR = 0b010,
+    BFRL = 0b011,
+    LRFB = 0b100,
+    LRBF = 0b110,
+    RLFB = 0b101,
+    RLBF = 0b111,
 }
 
 // format: xy swap, x order, y order

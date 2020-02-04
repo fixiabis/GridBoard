@@ -39,9 +39,25 @@ class GridBoard<GridBody> {
         return this.grids[i];
     }
 
-    // public getGridByAbsoluteCoordinateFromOrientation(x: number, y: number): Grid<GridBody> | null {
+    public getGridByAbsoluteCoordinateFromOrientation(x: number, y: number, orientation: GridOrientation | number = this.orientation): Grid<GridBody> | null {
+        let swapXAxisToYAxis = (orientation & 0b100) >> 2;
+        let xOrderByDescending = (orientation & 0b010) >> 1;
+        let yOrderByDescending = (orientation & 0b001);
 
-    // }
+        if (xOrderByDescending) {
+            x = this.width - 1 - x;
+        }
+
+        if (yOrderByDescending) {
+            y = this.height - 1 - y;
+        }
+
+        if (swapXAxisToYAxis) {
+            [y, x] = [x, y];
+        }
+
+        return this.getGridByAbsoluteCoordinate(x, y);
+    }
 }
 
 export default GridBoard;
