@@ -53,7 +53,7 @@ let whiteRook = {
 gridAtA1.body = whiteRook;
 ```
 
-###  Get Grid By Use GridDirection
+### Get Grid By Use GridDirection
 
 support common direction
 
@@ -82,5 +82,50 @@ gridAtB1.getGridByDirection(GridDirection.BBL);
 // 1 |   | * |   |   |
 // 2 |   |   |   |BRR|
 // 3 |BBL|   |BBR|   |
+//   +---+---+---+---+
+```
+
+### Board Orientation By GridOrientation
+
+refer to [Get Grid By Use GridDirection](#get-grid-by-use-griddirection)
+
+```javascript
+board.orientation = GridOrientation.FBLR; // default
+
+// FBLR:
+//     A   B   C  
+//   +---+---+---+
+// 1 |   |   |   |
+// 2 |   |   |   |
+// 3 |   |   |   |
+//   +---+---+---+
+
+board.orientation = GridOrientation.BFLR; // chess board coordinate
+
+// BFLR:
+//     A   B   C  
+//   +---+---+---+
+// 3 |   |   |   |
+// 2 |   |   |   |
+// 1 |   |   |   |
+//   +---+---+---+
+
+let gridAtE1 = board.getGridByAbsoluteCoordinate(4, 0); // white king placed
+
+// forward of king
+gridAtE1.getGridByDirection(GridDirection.F);
+
+let gridAtB1 = board.getGridByAbsoluteCoordinate(1, 0); // white knight placed
+
+// knight possible moves
+gridAtB1.getGridByDirection(GridDirection.FRR);
+gridAtB1.getGridByDirection(GridDirection.FFR);
+gridAtB1.getGridByDirection(GridDirection.FFL);
+
+//     A   B   C   D  
+//   +---+---+---+---+
+// 3 |FFL|   |FFR|   |
+// 2 |   |   |   |FRR|
+// 1 |   | * |   |   |
 //   +---+---+---+---+
 ```
