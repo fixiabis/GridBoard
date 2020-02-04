@@ -44,16 +44,16 @@ class GridBoard<GridBody> {
         let xOrderByDescending = (orientation & 0b010) >> 1;
         let yOrderByDescending = (orientation & 0b001);
 
+        if (swapXAxisToYAxis) {
+            [y, x] = [x, y];
+        }
+
         if (xOrderByDescending) {
             x = this.width - 1 - x;
         }
 
         if (yOrderByDescending) {
             y = this.height - 1 - y;
-        }
-
-        if (swapXAxisToYAxis) {
-            [y, x] = [x, y];
         }
 
         return this.getGridByAbsoluteCoordinate(x, y);

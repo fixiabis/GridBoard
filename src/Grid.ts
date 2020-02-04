@@ -26,6 +26,13 @@ class Grid<GridBody> {
         return this.getGridByRelativeCoordinate(r - l, b - f);
     }
 
+    public getGridByRelativeCoordinate(dx: number, dy: number): Grid<GridBody> | null {
+        let x = this.x + dx;
+        let y = this.y + dy;
+
+        return this.board.getGridByAbsoluteCoordinate(x, y);
+    }
+
     public getGridByDirectionFromOrientation(direction: GridDirection | number, orientation: GridOrientation | number = this.board.orientation): Grid<GridBody> | null {
         let swapXAxisToYAxis = (orientation & 0b100) >> 2;
         let xOrderByDescending = (orientation & 0b010) >> 1;
@@ -36,6 +43,10 @@ class Grid<GridBody> {
         let l = (0x00F0 & direction) >> 4;
         let r = (0x000F & direction);
 
+        if (swapXAxisToYAxis) {
+            [f, b, l, r] = [l, r, f, b];
+        }
+
         if (xOrderByDescending) {
             [r, l] = [l, r];
         }
@@ -44,18 +55,7 @@ class Grid<GridBody> {
             [b, f] = [f, b];
         }
 
-        if (swapXAxisToYAxis) {
-            [f, b] = [l, r];
-        }
-
         return this.getGridByRelativeCoordinate(r - l, b - f);
-    }
-
-    public getGridByRelativeCoordinate(dx: number, dy: number): Grid<GridBody> | null {
-        let x = this.x + dx;
-        let y = this.y + dy;
-
-        return this.board.getGridByAbsoluteCoordinate(x, y);
     }
 
     public getGridByRelativeCoordinateFromOrientation(dx: number, dy: number, orientation: GridOrientation | number = this.board.orientation): Grid<GridBody> | null {
@@ -63,16 +63,16 @@ class Grid<GridBody> {
         let xOrderByDescending = (orientation & 0b010) >> 1;
         let yOrderByDescending = (orientation & 0b001);
 
+        if (swapXAxisToYAxis) {
+            [dy, dx] = [dx, dy];
+        }
+
         if (xOrderByDescending) {
             dx = -dx;
         }
 
         if (yOrderByDescending) {
             dy = -dy;
-        }
-
-        if (swapXAxisToYAxis) {
-            [dy, dx] = [dx, dy];
         }
 
         return this.getGridByRelativeCoordinate(dx, dy);
