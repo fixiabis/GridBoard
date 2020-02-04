@@ -40,9 +40,9 @@ class GridBoard<GridBody> {
     }
 
     public getGridByAbsoluteCoordinateFromOrientation(x: number, y: number, orientation: GridOrientation | number = this.orientation): Grid<GridBody> | null {
-        let swapXAxisToYAxis = (orientation & 0b100) >> 2;
-        let xOrderByDescending = (orientation & 0b010) >> 1;
-        let yOrderByDescending = (orientation & 0b001);
+        let swapXAxisToYAxis = (0b100 & orientation) >> 2;
+        let xOrderByDescending = (0b010 & orientation) >> 1;
+        let yOrderByDescending = (0b001 & orientation);
 
         if (swapXAxisToYAxis) {
             [y, x] = [x, y];
