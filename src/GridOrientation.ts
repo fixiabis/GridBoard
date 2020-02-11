@@ -9,6 +9,6 @@ enum GridOrientation {
     RLBF = 0b111,
 }
 
-// format: xy swap, x order, y order
+// format: axis need swap, x-axis order by desc, y-axis order by desc
 
 export default GridOrientation;
