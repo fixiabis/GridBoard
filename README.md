@@ -89,9 +89,9 @@ gridAtB1.getGridByDirection(GridDirection.BBL);
 
 common orientation provided
 
-S: board x-axis and y-axis will swap
-X: x-axis number is order by descending
-Y: y-axis number is order by descending
+S: board x-axis and y-axis will swap  
+X: x-axis number is order by descending  
+Y: y-axis number is order by descending  
 
 Format(BIN): 0bSXY, 0b100 means two axis need swap
 
