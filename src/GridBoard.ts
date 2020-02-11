@@ -40,19 +40,19 @@ class GridBoard<GridBody> {
     }
 
     public getGridByAbsoluteCoordinateFromOrientation(x: number, y: number, orientation: GridOrientation | number = this.orientation): Grid<GridBody> | null {
-        let swapXAxisToYAxis = (0b100 & orientation) >> 2;
-        let xOrderByDescending = (0b010 & orientation) >> 1;
-        let yOrderByDescending = (0b001 & orientation);
+        let isAxisNeedSwap = (0b100 & orientation) >> 2;
+        let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
+        let isYAxisOrderByDescending = (0b001 & orientation);
 
-        if (swapXAxisToYAxis) {
+        if (isAxisNeedSwap) {
             [y, x] = [x, y];
         }
 
-        if (xOrderByDescending) {
+        if (isXAxisOrderByDescending) {
             x = this.width - 1 - x;
         }
 
-        if (yOrderByDescending) {
+        if (isYAxisOrderByDescending) {
             y = this.height - 1 - y;
         }
 

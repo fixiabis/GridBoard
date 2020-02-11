@@ -34,24 +34,24 @@ class Grid<GridBody> {
     }
 
     public getGridByDirectionFromOrientation(direction: GridDirection | number, orientation: GridOrientation | number = this.board.orientation): Grid<GridBody> | null {
-        let swapXAxisToYAxis = (0b100 & orientation) >> 2;
-        let xOrderByDescending = (0b010 & orientation) >> 1;
-        let yOrderByDescending = (0b001 & orientation);
+        let isAxisNeedSwap = (0b100 & orientation) >> 2;
+        let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
+        let isYAxisOrderByDescending = (0b001 & orientation);
 
         let f = (0xF000 & direction) >> 12;
         let b = (0x0F00 & direction) >> 8;
         let l = (0x00F0 & direction) >> 4;
         let r = (0x000F & direction);
 
-        if (swapXAxisToYAxis) {
+        if (isAxisNeedSwap) {
             [f, b, l, r] = [l, r, f, b];
         }
 
-        if (xOrderByDescending) {
+        if (isXAxisOrderByDescending) {
             [r, l] = [l, r];
         }
 
-        if (yOrderByDescending) {
+        if (isYAxisOrderByDescending) {
             [b, f] = [f, b];
         }
 
@@ -59,19 +59,19 @@ class Grid<GridBody> {
     }
 
     public getGridByRelativeCoordinateFromOrientation(dx: number, dy: number, orientation: GridOrientation | number = this.board.orientation): Grid<GridBody> | null {
-        let swapXAxisToYAxis = (0b100 & orientation) >> 2;
-        let xOrderByDescending = (0b010 & orientation) >> 1;
-        let yOrderByDescending = (0b001 & orientation);
+        let isAxisNeedSwap = (0b100 & orientation) >> 2;
+        let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
+        let isYAxisOrderByDescending = (0b001 & orientation);
 
-        if (swapXAxisToYAxis) {
+        if (isAxisNeedSwap) {
             [dy, dx] = [dx, dy];
         }
 
-        if (xOrderByDescending) {
+        if (isXAxisOrderByDescending) {
             dx = -dx;
         }
 
-        if (yOrderByDescending) {
+        if (isYAxisOrderByDescending) {
             dy = -dy;
         }
 
