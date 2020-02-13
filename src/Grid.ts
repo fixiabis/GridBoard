@@ -1,23 +1,26 @@
 import GridBoard from "./GridBoard";
 import GridDirection from "./GridDirection";
 import GridOrientation from "./GridOrientation";
+import { DefaultGridState } from "./types/default";
 
-class Grid<GridBody> {
+class Grid<GridBody, GridState extends DefaultGridState = {}> {
     public readonly x: number;
     public readonly y: number;
     public readonly i: number;
     public body: GridBody | null;
-    public readonly board: GridBoard<GridBody>;
+    public state: GridState | null;
+    public readonly board: GridBoard<GridBody, GridState>;
 
-    constructor(x: number, y: number, board: GridBoard<GridBody>) {
+    constructor(x: number, y: number, board: GridBoard<GridBody, GridState>) {
         this.x = x;
         this.y = y;
         this.i = x * board.height + y;
         this.body = null;
+        this.state = null;
         this.board = board;
     }
 
-    public getGridByDirection(direction: GridDirection | number): Grid<GridBody> | null {
+    public getGridByDirection(direction: GridDirection | number): Grid<GridBody, GridState> | null {
         let f = (0xF000 & direction) >> 12;
         let b = (0x0F00 & direction) >> 8;
         let l = (0x00F0 & direction) >> 4;
@@ -26,14 +29,14 @@ class Grid<GridBody> {
         return this.getGridByRelativeCoordinate(r - l, b - f);
     }
 
-    public getGridByRelativeCoordinate(dx: number, dy: number): Grid<GridBody> | null {
+    public getGridByRelativeCoordinate(dx: number, dy: number): Grid<GridBody, GridState> | null {
         let x = this.x + dx;
         let y = this.y + dy;
 
         return this.board.getGridByAbsoluteCoordinate(x, y);
     }
 
-    public getGridByDirectionFromOrientation(direction: GridDirection | number, orientation: GridOrientation | number = this.board.orientation): Grid<GridBody> | null {
+    public getGridByDirectionFromOrientation(direction: GridDirection | number, orientation: GridOrientation | number = this.board.orientation): Grid<GridBody, GridState> | null {
         let isAxisNeedSwap = (0b100 & orientation) >> 2;
         let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
         let isYAxisOrderByDescending = (0b001 & orientation);
@@ -58,7 +61,7 @@ class Grid<GridBody> {
         return this.getGridByRelativeCoordinate(r - l, b - f);
     }
 
-    public getGridByRelativeCoordinateFromOrientation(dx: number, dy: number, orientation: GridOrientation | number = this.board.orientation): Grid<GridBody> | null {
+    public getGridByRelativeCoordinateFromOrientation(dx: number, dy: number, orientation: GridOrientation | number = this.board.orientation): Grid<GridBody, GridState> | null {
         let isAxisNeedSwap = (0b100 & orientation) >> 2;
         let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
         let isYAxisOrderByDescending = (0b001 & orientation);
@@ -76,6 +79,41 @@ class Grid<GridBody> {
         }
 
         return this.getGridByRelativeCoordinate(dx, dy);
+    }
+
+    public moveBodyToGrid(grid: Grid<GridBody, GridState> | null): boolean {
+        if (grid === null) {
+            return false;
+        }
+
+        grid.body = this.body;
+        this.body = null;
+
+        return true;
+    }
+
+    public moveBodyToGridByDirection(direction: GridDirection | number): boolean {
+        let grid = this.getGridByDirection(direction);
+
+        return this.moveBodyToGrid(grid);
+    }
+
+    public moveBodyToGridByRelativeCoordinate(dx: number, dy: number): boolean {
+        let grid = this.getGridByRelativeCoordinate(dx, dy);
+
+        return this.moveBodyToGrid(grid);
+    }
+
+    public moveBodyToGridByDirectionFromOrientation(direction: GridDirection | number, orientation: GridOrientation | number = this.board.orientation): boolean {
+        let grid = this.getGridByDirectionFromOrientation(direction, orientation);
+
+        return this.moveBodyToGrid(grid);
+    }
+
+    public moveBodyToGridByRelativeCoordinateFromOrientation(dx: number, dy: number, orientation: GridOrientation | number = this.board.orientation): boolean {
+        let grid = this.getGridByRelativeCoordinateFromOrientation(dx, dy, orientation);
+
+        return this.moveBodyToGrid(grid);
     }
 }
 
