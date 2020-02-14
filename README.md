@@ -9,7 +9,7 @@ npm install --save gridboard
 ```
 
 Also available UMD package defines a ```window.gridboard``` global variable.
-Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@1.1.1/dist/gridboard.js
+Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@1.1.2/dist/gridboard.js
 
 ### Create A Chess Board (TypeScript)
 
