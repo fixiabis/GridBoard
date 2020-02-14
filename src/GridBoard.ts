@@ -1,8 +1,8 @@
 import Grid from "./Grid";
 import GridOrientation from "./GridOrientation";
-import { DefaultGridState } from "./types/default";
+import { UniversalGridState } from "./types/default";
 
-class GridBoard<GridPiece, GridState extends DefaultGridState = {}> {
+class GridBoard<GridPiece, GridState extends UniversalGridState = {}> {
     public readonly width: number;
     public readonly height: number;
     public readonly length: number;
@@ -62,3 +62,6 @@ class GridBoard<GridPiece, GridState extends DefaultGridState = {}> {
 }
 
 export default GridBoard;
+
+let board = new GridBoard<any>(8, 8);
+board.grids.forEach(grid => grid.state = { a: 12 });

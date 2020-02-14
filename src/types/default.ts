@@ -1,3 +1,3 @@
-export interface DefaultGridState {
+export interface UniversalGridState {
     [stateName: string]: any;
 }
