@@ -155,7 +155,7 @@ class GridBoard<GridPiece, GridState = undefined> {
         return grids;
     }
 
-    public getGridsByRangeOfAbsoluteCoordinate(startX: number, startY: number, endX: number, endY: number) {
+    public getGridsByRangeOfAbsoluteCoordinates(startX: number, startY: number, endX: number, endY: number) {
         let grids = [];
 
         let isXAxisOrderByDescending = startX > endX;
@@ -197,7 +197,7 @@ class GridBoard<GridPiece, GridState = undefined> {
         return grids;
     }
 
-    public getGridsByRangeOfAbsoluteCoordinateFromOrientation(startX: number, startY: number, endX: number, endY: number, orientation: GridOrientation = this.orientation) {
+    public getGridsByRangeOfAbsoluteCoordinatesFromOrientation(startX: number, startY: number, endX: number, endY: number, orientation: GridOrientation = this.orientation) {
         let grids = [];
 
         let isXAxisOrderByDescending = startX > endX;
