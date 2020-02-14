@@ -2,6 +2,10 @@ import GridBoard from "./GridBoard";
 import GridDirection from "./GridDirection";
 import GridOrientation from "./GridOrientation";
 
+function gridHasPiece<GridPiece, GridState>(grid: Grid<GridPiece, GridState>) {
+    return grid.piece !== null;
+}
+
 class Grid<GridPiece, GridState = undefined> {
     public readonly x: number;
     public readonly y: number;
@@ -131,12 +135,12 @@ class Grid<GridPiece, GridState = undefined> {
         return grids;
     }
 
-    public getGridsByDirectionUntilGridHasPiece(direction: GridDirection) {
-        return this.getGridsByDirectionUntilConditionMet(direction, grid => Boolean(grid.piece));
+    public getGridsByDirectionUntilGridHasPiece(direction: GridDirection): Grid<GridPiece, GridState>[] {
+        return this.getGridsByDirectionUntilConditionMet(direction, gridHasPiece);
     }
 
     public getGridsByDirectionFromOrientationUntilGridHasPiece(direction: GridDirection, orientation: GridOrientation = this.board.orientation) {
-        return this.getGridsByDirectionFromOrientationUntilConditionMet(direction, grid => Boolean(grid.piece), orientation);
+        return this.getGridsByDirectionFromOrientationUntilConditionMet(direction, gridHasPiece, orientation);
     }
 
     public getGridsByDirections(directions: GridDirection[]) {
