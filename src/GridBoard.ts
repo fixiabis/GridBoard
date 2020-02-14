@@ -1,8 +1,7 @@
 import Grid from "./Grid";
 import GridOrientation from "./GridOrientation";
-import { UniversalGridState } from "./types/default";
 
-class GridBoard<GridPiece, GridState extends UniversalGridState = {}> {
+class GridBoard<GridPiece, GridState = any> {
     public readonly width: number;
     public readonly height: number;
     public readonly length: number;

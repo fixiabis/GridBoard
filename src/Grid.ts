@@ -1,14 +1,13 @@
 import GridBoard from "./GridBoard";
 import GridDirection from "./GridDirection";
 import GridOrientation from "./GridOrientation";
-import { UniversalGridState } from "./types/default";
 
-class Grid<GridPiece, GridState extends UniversalGridState = {}> {
+class Grid<GridPiece, GridState = any> {
     public readonly x: number;
     public readonly y: number;
     public readonly i: number;
     public piece: GridPiece | null;
-    public state: GridState | null;
+    public state?: GridState;
     public readonly board: GridBoard<GridPiece, GridState>;
 
     constructor(x: number, y: number, board: GridBoard<GridPiece, GridState>) {
@@ -16,7 +15,6 @@ class Grid<GridPiece, GridState extends UniversalGridState = {}> {
         this.y = y;
         this.i = x * board.height + y;
         this.piece = null;
-        this.state = null;
         this.board = board;
     }
 
