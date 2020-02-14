@@ -23,7 +23,7 @@ class GridBoard<GridPiece, GridState extends UniversalGridState = {}> {
         }
     }
 
-    public getGridByAbsoluteCoordinate(x: number, y: number): Grid<GridPiece, GridState> | null {
+    public getGridByAbsoluteCoordinate(x: number, y: number) {
         let isOverBoundary = (
             x < 0 ||
             x >= this.width ||
@@ -40,7 +40,7 @@ class GridBoard<GridPiece, GridState extends UniversalGridState = {}> {
         return this.grids[i];
     }
 
-    public getGridByAbsoluteCoordinateFromOrientation(x: number, y: number, orientation: GridOrientation | number = this.orientation): Grid<GridPiece, GridState> | null {
+    public getGridByAbsoluteCoordinateFromOrientation(x: number, y: number, orientation: GridOrientation = this.orientation) {
         let isAxisNeedSwap = (0b100 & orientation) >> 2;
         let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
         let isYAxisOrderByDescending = (0b001 & orientation);
@@ -59,9 +59,186 @@ class GridBoard<GridPiece, GridState extends UniversalGridState = {}> {
 
         return this.getGridByAbsoluteCoordinate(x, y);
     }
+
+    public getGridsByAbsoluteCoordinates(coordinates: [number, number][]) {
+        return coordinates.map(([x, y]) => this.getGridByAbsoluteCoordinate(x, y));
+    }
+
+    public getGridsByAbsoluteCoordinatesFromOrientation(coordinates: [number, number][], orientation: GridOrientation = this.orientation) {
+        return coordinates.map(([x, y]) => this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+    }
+
+    public getGridsByXAxisCoordinate(x: number) {
+        let grids = [];
+
+        for (let y = 0; y < this.height; y++) {
+            grids.push(this.getGridByAbsoluteCoordinate(x, y));
+        }
+
+        return grids;
+    }
+
+    public getGridsByYAxisCoordinate(y: number) {
+        let grids = [];
+
+        for (let x = 0; x < this.width; x++) {
+            grids.push(this.getGridByAbsoluteCoordinate(x, y));
+        }
+
+        return grids;
+    }
+
+    public getGridsByXAxisCoordinateFromOrientation(x: number, orientation: GridOrientation = this.orientation) {
+        let grids = [];
+
+        for (let y = 0; y < this.height; y++) {
+            grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+        }
+
+        return grids;
+    }
+
+    public getGridsByYAxisCoordinateFromOrientation(y: number, orientation: GridOrientation = this.orientation) {
+        let grids = [];
+
+        for (let x = 0; x < this.width; x++) {
+            grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+        }
+
+        return grids;
+    }
+
+    public getGridsByXAxisCoordinates(xCoordinates: number[]) {
+        let grids = [];
+
+        for (let x of xCoordinates) {
+            for (let y = 0; y < this.height; y++) {
+                grids.push(this.getGridByAbsoluteCoordinate(x, y));
+            }
+        }
+
+        return grids;
+    }
+
+    public getGridsByYAxisCoordinates(yCoordinates: number[]) {
+        let grids = [];
+
+        for (let x = 0; x < this.width; x++) {
+            for (let y of yCoordinates) {
+                grids.push(this.getGridByAbsoluteCoordinate(x, y));
+            }
+        }
+
+        return grids;
+    }
+
+    public getGridsByXAxisCoordinatesFromOrientation(xCoordinates: number[], orientation: GridOrientation) {
+        let grids = [];
+
+        for (let x of xCoordinates) {
+            for (let y = 0; y < this.height; y++) {
+                grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+            }
+        }
+
+        return grids;
+    }
+
+    public getGridsByYAxisCoordinatesFromOrientation(yCoordinates: number[], orientation: GridOrientation) {
+        let grids = [];
+
+        for (let x = 0; x < this.width; x++) {
+            for (let y of yCoordinates) {
+                grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+            }
+        }
+
+        return grids;
+    }
+
+    public getGridsByRangeOfAbsoluteCoordinate(startX: number, startY: number, endX: number, endY: number) {
+        let grids = [];
+
+        let isXAxisOrderByDescending = startX > endX;
+        let isYAxisOrderByDescending = startY > endY;
+
+        if (isXAxisOrderByDescending) {
+            if (isYAxisOrderByDescending) {
+                for (let x = startX; x >= endX; x--) {
+                    for (let y = startY; y >= endX; y--) {
+                        grids.push(this.getGridByAbsoluteCoordinate(x, y));
+                    }
+                }
+            }
+            else {
+                for (let x = startX; x >= endX; x--) {
+                    for (let y = startY; y <= endX; y++) {
+                        grids.push(this.getGridByAbsoluteCoordinate(x, y));
+                    }
+                }
+            }
+        }
+        else {
+            if (isYAxisOrderByDescending) {
+                for (let x = startX; x <= endX; x++) {
+                    for (let y = startY; y >= endX; y--) {
+                        grids.push(this.getGridByAbsoluteCoordinate(x, y));
+                    }
+                }
+            }
+            else {
+                for (let x = startX; x <= endX; x++) {
+                    for (let y = startY; y <= endX; y++) {
+                        grids.push(this.getGridByAbsoluteCoordinate(x, y));
+                    }
+                }
+            }
+        }
+
+        return grids;
+    }
+
+    public getGridsByRangeOfAbsoluteCoordinateFromOrientation(startX: number, startY: number, endX: number, endY: number, orientation: GridOrientation = this.orientation) {
+        let grids = [];
+
+        let isXAxisOrderByDescending = startX > endX;
+        let isYAxisOrderByDescending = startY > endY;
+
+        if (isXAxisOrderByDescending) {
+            if (isYAxisOrderByDescending) {
+                for (let x = startX; x >= endX; x--) {
+                    for (let y = startY; y >= endX; y--) {
+                        grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+                    }
+                }
+            }
+            else {
+                for (let x = startX; x >= endX; x--) {
+                    for (let y = startY; y <= endX; y++) {
+                        grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+                    }
+                }
+            }
+        }
+        else {
+            if (isYAxisOrderByDescending) {
+                for (let x = startX; x <= endX; x++) {
+                    for (let y = startY; y >= endX; y--) {
+                        grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+                    }
+                }
+            }
+            else {
+                for (let x = startX; x <= endX; x++) {
+                    for (let y = startY; y <= endX; y++) {
+                        grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+                    }
+                }
+            }
+        }
+
+        return grids;
+    }
 }
 
 export default GridBoard;
-
-let board = new GridBoard<any>(8, 8);
-board.grids.forEach(grid => grid.state = { a: 12 });
