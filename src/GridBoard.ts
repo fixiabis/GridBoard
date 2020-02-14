@@ -1,7 +1,7 @@
 import Grid from "./Grid";
 import GridOrientation from "./GridOrientation";
 
-class GridBoard<GridPiece, GridState = any> {
+class GridBoard<GridPiece, GridState = undefined> {
     public readonly width: number;
     public readonly height: number;
     public readonly length: number;

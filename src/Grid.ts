@@ -2,12 +2,12 @@ import GridBoard from "./GridBoard";
 import GridDirection from "./GridDirection";
 import GridOrientation from "./GridOrientation";
 
-class Grid<GridPiece, GridState = any> {
+class Grid<GridPiece, GridState = undefined> {
     public readonly x: number;
     public readonly y: number;
     public readonly i: number;
     public piece: GridPiece | null;
-    public state?: GridState;
+    public state!: GridState;
     public readonly board: GridBoard<GridPiece, GridState>;
 
     constructor(x: number, y: number, board: GridBoard<GridPiece, GridState>) {
