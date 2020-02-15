@@ -164,14 +164,14 @@ class GridBoard<GridPiece, GridState = undefined> {
         if (isXAxisOrderByDescending) {
             if (isYAxisOrderByDescending) {
                 for (let x = startX; x >= endX; x--) {
-                    for (let y = startY; y >= endX; y--) {
+                    for (let y = startY; y >= endY; y--) {
                         grids.push(this.getGridByAbsoluteCoordinate(x, y));
                     }
                 }
             }
             else {
                 for (let x = startX; x >= endX; x--) {
-                    for (let y = startY; y <= endX; y++) {
+                    for (let y = startY; y <= endY; y++) {
                         grids.push(this.getGridByAbsoluteCoordinate(x, y));
                     }
                 }
@@ -180,14 +180,14 @@ class GridBoard<GridPiece, GridState = undefined> {
         else {
             if (isYAxisOrderByDescending) {
                 for (let x = startX; x <= endX; x++) {
-                    for (let y = startY; y >= endX; y--) {
+                    for (let y = startY; y >= endY; y--) {
                         grids.push(this.getGridByAbsoluteCoordinate(x, y));
                     }
                 }
             }
             else {
                 for (let x = startX; x <= endX; x++) {
-                    for (let y = startY; y <= endX; y++) {
+                    for (let y = startY; y <= endY; y++) {
                         grids.push(this.getGridByAbsoluteCoordinate(x, y));
                     }
                 }
@@ -206,14 +206,14 @@ class GridBoard<GridPiece, GridState = undefined> {
         if (isXAxisOrderByDescending) {
             if (isYAxisOrderByDescending) {
                 for (let x = startX; x >= endX; x--) {
-                    for (let y = startY; y >= endX; y--) {
+                    for (let y = startY; y >= endY; y--) {
                         grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
                     }
                 }
             }
             else {
                 for (let x = startX; x >= endX; x--) {
-                    for (let y = startY; y <= endX; y++) {
+                    for (let y = startY; y <= endY; y++) {
                         grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
                     }
                 }
@@ -222,14 +222,14 @@ class GridBoard<GridPiece, GridState = undefined> {
         else {
             if (isYAxisOrderByDescending) {
                 for (let x = startX; x <= endX; x++) {
-                    for (let y = startY; y >= endX; y--) {
+                    for (let y = startY; y >= endY; y--) {
                         grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
                     }
                 }
             }
             else {
                 for (let x = startX; x <= endX; x++) {
-                    for (let y = startY; y <= endX; y++) {
+                    for (let y = startY; y <= endY; y++) {
                         grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
                     }
                 }
