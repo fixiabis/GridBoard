@@ -29,7 +29,7 @@ let board = new GridBoard<Chess>(8, 8);
 
 ### Place Chess On Board
 
-Chess can store in ```grid.body```
+Chess can store in ```grid.piece```
 
 ```javascript
 // place white pawn on A2
@@ -40,7 +40,7 @@ let whitePawn = {
     type: "pawn"
 };
 
-gridAtA2.body = whitePawn;
+gridAtA2.piece = whitePawn;
 
 // place white rook on A1
 let gridAtA1 = gridAtA2.getGridByRelativeCoordinate(0, -1);
@@ -50,7 +50,7 @@ let whiteRook = {
     type: "rook"
 };
 
-gridAtA1.body = whiteRook;
+gridAtA1.piece = whiteRook;
 ```
 
 ### Get Grid By Use GridDirection
