@@ -131,30 +131,6 @@ class Grid<GridPiece, GridState = undefined> {
         return grids;
     }
 
-    public getGridsByDirectionUntilGridHasPiece(direction: GridDirection) {
-        return this.getGridsByDirectionUntilConditionMet(direction, grid => Boolean(grid.piece));
-    }
-
-    public getGridsByDirectionFromOrientationUntilGridHasPiece(direction: GridDirection, orientation: GridOrientation = this.board.orientation) {
-        return this.getGridsByDirectionFromOrientationUntilConditionMet(direction, grid => Boolean(grid.piece), orientation);
-    }
-
-    public getGridsByDirections(directions: GridDirection[]) {
-        return directions.map(direction => this.getGridByDirection(direction));
-    }
-
-    public getGridsByRelativeCoordinates(coordinates: [number, number][]) {
-        return coordinates.map(([dx, dy]) => this.getGridByRelativeCoordinate(dx, dy));
-    }
-
-    public getGridsByDirectionsFromOrientation(directions: GridDirection[], orientation: GridOrientation = this.board.orientation) {
-        return directions.map(direction => this.getGridByDirectionFromOrientation(direction, orientation));
-    }
-
-    public getGridsByRelativeCoordinatesFromOrientation(coordinates: [number, number][], orientation: GridOrientation = this.board.orientation) {
-        return coordinates.map(([dx, dy]) => this.getGridByRelativeCoordinateFromOrientation(dx, dy, orientation));
-    }
-
     public movePieceToGrid(grid: Grid<GridPiece, GridState> | null) {
         if (grid === null) {
             return false;
@@ -164,30 +140,6 @@ class Grid<GridPiece, GridState = undefined> {
         this.piece = null;
 
         return true;
-    }
-
-    public movePieceToGridByDirection(direction: GridDirection) {
-        let grid = this.getGridByDirection(direction);
-
-        return this.movePieceToGrid(grid);
-    }
-
-    public movePieceToGridByRelativeCoordinate(dx: number, dy: number) {
-        let grid = this.getGridByRelativeCoordinate(dx, dy);
-
-        return this.movePieceToGrid(grid);
-    }
-
-    public movePieceToGridByDirectionFromOrientation(direction: GridDirection, orientation: GridOrientation = this.board.orientation) {
-        let grid = this.getGridByDirectionFromOrientation(direction, orientation);
-
-        return this.movePieceToGrid(grid);
-    }
-
-    public movePieceToGridByRelativeCoordinateFromOrientation(dx: number, dy: number, orientation: GridOrientation = this.board.orientation) {
-        let grid = this.getGridByRelativeCoordinateFromOrientation(dx, dy, orientation);
-
-        return this.movePieceToGrid(grid);
     }
 }
 
