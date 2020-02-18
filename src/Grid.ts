@@ -2,6 +2,10 @@ import GridBoard from "./GridBoard";
 import GridDirection from "./GridDirection";
 import GridOrientation from "./GridOrientation";
 
+function gridHasPiece<GridPiece, GridState>(grid: Grid<GridPiece, GridState>) {
+    return grid.piece !== null;
+}
+
 class Grid<GridPiece, GridState = undefined> {
     public readonly x: number;
     public readonly y: number;
