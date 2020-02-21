@@ -166,7 +166,7 @@ class GridBoard<GridPiece, GridState = undefined> {
                 return { piece, state };
             }
             else {
-                return { piece } as GridSnapshot<GridPiece, GridState>;
+                return { piece };
             }
         });
 
@@ -211,7 +211,7 @@ class GridBoard<GridPiece, GridState = undefined> {
                 grid.piece = gridSnapshot.piece;
             }
 
-            if ('state' in grid || 'state' in gridSnapshot) {
+            if ("state" in gridSnapshot) {
                 if (isObjectAndNotNull(gridSnapshot.state) && isObjectAndNotNull(grid.state)) {
                     if (gridSnapshot.state instanceof Array && grid.state instanceof Array) {
                         for (let i = 0; i < gridSnapshot.state.length; i++) {
@@ -235,6 +235,9 @@ class GridBoard<GridPiece, GridState = undefined> {
                 else {
                     grid.state = gridSnapshot.state;
                 }
+            }
+            else {
+                delete grid.state;
             }
         }
 

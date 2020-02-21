@@ -4,7 +4,9 @@ export interface GridBoardSnapshot<GridPiece, GridState = undefined> {
     grids: GridSnapshot<GridPiece, GridState>[];
 }
 
-export interface GridSnapshot<GridPiece, GridState = undefined> {
+export type GridSnapshot<GridPiece, GridState = undefined> = {
     piece: GridPiece | null;
     state: GridState;
+} | {
+    piece: GridPiece | null;
 }
