@@ -1,5 +1,10 @@
 import Grid from "./Grid";
 import GridOrientation from "./GridOrientation";
+import { GridBoardSnapshot, GridSnapshot } from "./GridSnapshot";
+
+function isObjectAndNotNull(value: any): value is object {
+    return typeof value === "object" && value !== null;
+}
 
 class GridBoard<GridPiece, GridState = undefined> {
     public readonly width: number;
@@ -141,6 +146,75 @@ class GridBoard<GridPiece, GridState = undefined> {
         }
 
         return grids;
+    }
+
+    public getSnapshot(): GridBoardSnapshot<GridPiece, GridState> {
+        let { width, height, grids } = this;
+
+        let gridSnapshots = grids.map(grid => {
+            let { piece, state } = grid;
+
+            if (isObjectAndNotNull(piece)) {
+                piece = Object.create(piece);
+            }
+
+            if (isObjectAndNotNull(state)) {
+                state = Object.create(state);
+            }
+
+            if ("state" in grid) {
+                return { piece, state };
+            }
+            else {
+                return { piece } as GridSnapshot<GridPiece, GridState>;
+            }
+        });
+
+        return { width, height, grids: gridSnapshots };
+    }
+
+    public setSnapshot(snapshot: GridBoardSnapshot<GridPiece, GridState>) {
+        let isSizeNotMatch = (
+            snapshot.width !== this.width ||
+            snapshot.height !== this.height
+        );
+
+        if (isSizeNotMatch) {
+            return false;
+        }
+
+        for (let i = 0; i < this.grids.length; i++) {
+            let grid = this.grids[i];
+            let gridSnapshot = snapshot.grids[i];
+
+            if (typeof gridSnapshot.state !== "undefined") {
+                if (isObjectAndNotNull(gridSnapshot.state) && isObjectAndNotNull(grid.state)) {
+                    if (gridSnapshot.state instanceof Array && grid.state instanceof Array) {
+                        for (let i = 0; i < gridSnapshot.state.length; i++) {
+                            grid.state[i] = gridSnapshot.state[i];
+                        }
+
+                        for (let i = gridSnapshot.state.length - 1; i < grid.state.length; i++) {
+                            delete grid.state[i];
+                        }
+                    }
+                    else {
+                        for (let field in grid.state) {
+                            delete grid.state[field];
+                        }
+
+                        for (let field in gridSnapshot.state) {
+                            grid.state[field] = gridSnapshot.state[field];
+                        }
+                    }
+                }
+                else {
+                    grid.state = gridSnapshot.state;
+                }
+            }
+        }
+
+        return true;
     }
 }
 

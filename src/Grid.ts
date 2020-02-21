@@ -27,13 +27,6 @@ class Grid<GridPiece, GridState = undefined> {
         return this.getGridByRelativeCoordinate(r - l, b - f);
     }
 
-    public getGridByRelativeCoordinate(dx: number, dy: number) {
-        let x = this.x + dx;
-        let y = this.y + dy;
-
-        return this.board.getGridByAbsoluteCoordinate(x, y);
-    }
-
     public getGridByDirectionFromOrientation(direction: GridDirection, orientation: GridOrientation = this.board.orientation) {
         let isAxisNeedSwap = (0b100 & orientation) >> 2;
         let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
@@ -57,6 +50,13 @@ class Grid<GridPiece, GridState = undefined> {
         }
 
         return this.getGridByRelativeCoordinate(r - l, b - f);
+    }
+
+    public getGridByRelativeCoordinate(dx: number, dy: number) {
+        let x = this.x + dx;
+        let y = this.y + dy;
+
+        return this.board.getGridByAbsoluteCoordinate(x, y);
     }
 
     public getGridByRelativeCoordinateFromOrientation(dx: number, dy: number, orientation: GridOrientation = this.board.orientation) {
