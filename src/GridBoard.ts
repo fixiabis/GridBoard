@@ -187,7 +187,31 @@ class GridBoard<GridPiece, GridState = undefined> {
             let grid = this.grids[i];
             let gridSnapshot = snapshot.grids[i];
 
-            if (typeof gridSnapshot.state !== "undefined") {
+            if (isObjectAndNotNull(gridSnapshot.piece) && isObjectAndNotNull(grid.piece)) {
+                if (gridSnapshot.piece instanceof Array && grid.piece instanceof Array) {
+                    for (let i = 0; i < gridSnapshot.piece.length; i++) {
+                        grid.piece[i] = gridSnapshot.piece[i];
+                    }
+
+                    for (let i = gridSnapshot.piece.length - 1; i < grid.piece.length; i++) {
+                        delete grid.piece[i];
+                    }
+                }
+                else {
+                    for (let field in grid.piece) {
+                        delete grid.piece[field];
+                    }
+
+                    for (let field in gridSnapshot.piece) {
+                        grid.piece[field] = gridSnapshot.piece[field];
+                    }
+                }
+            }
+            else {
+                grid.piece = gridSnapshot.piece;
+            }
+
+            if ('state' in grid || 'state' in gridSnapshot) {
                 if (isObjectAndNotNull(gridSnapshot.state) && isObjectAndNotNull(grid.state)) {
                     if (gridSnapshot.state instanceof Array && grid.state instanceof Array) {
                         for (let i = 0; i < gridSnapshot.state.length; i++) {
