@@ -4,9 +4,11 @@ export interface GridBoardSnapshot<GridPiece, GridState = undefined> {
     grids: GridSnapshot<GridPiece, GridState>[];
 }
 
+interface GridSnapshotOnlyPiece<GridPiece> {
+    piece: GridPiece | null;
+}
+
 export type GridSnapshot<GridPiece, GridState = undefined> = {
     piece: GridPiece | null;
     state: GridState;
-} | {
-    piece: GridPiece | null;
-}
+} | GridSnapshotOnlyPiece<GridPiece>;
