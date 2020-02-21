@@ -1,16 +1,14 @@
 import Grid from "./Grid";
 import GridOrientation from "./GridOrientation";
-import { GridBoardSnapshot, GridSnapshot } from "./GridSnapshot";
+import { GridBoardSnapshot, GridMaybeHasState, GridSnapshotMaybeHasState } from "./type";
+import { isObjectAndNotNull, isGridLikeHasState } from "./utility";
+import { GridSnapshot } from "./index";
 
-function isObjectAndNotNull(value: any): value is object {
-    return typeof value === "object" && value !== null;
-}
-
-class GridBoard<GridPiece, GridState = undefined> {
+class GridBoard<GridPiece, GridState = never> {
     public readonly width: number;
     public readonly height: number;
     public readonly length: number;
-    public readonly grids: Grid<GridPiece, GridState>[];
+    public readonly grids: GridMaybeHasState<GridPiece, GridState>[];
     public orientation: GridOrientation = GridOrientation.FBLR;
 
     constructor(width: number, height: number) {
@@ -22,12 +20,12 @@ class GridBoard<GridPiece, GridState = undefined> {
         for (let x = 0; x < width; x++) {
             for (let y = 0; y < height; y++) {
                 let grid = new Grid<GridPiece, GridState>(x, y, this);
-                this.grids[grid.i] = grid;
+                this.grids[grid.i] = grid as GridMaybeHasState<GridPiece, GridState>;
             }
         }
     }
 
-    public getGridByAbsoluteCoordinate(x: number, y: number) {
+    public getGridByAbsoluteCoordinate(x: number, y: number): GridMaybeHasState<GridPiece, GridState> | null {
         let isOverBoundary = (
             x < 0 ||
             x >= this.width ||
@@ -152,23 +150,25 @@ class GridBoard<GridPiece, GridState = undefined> {
         let { width, height, grids } = this;
 
         let gridSnapshots = grids.map(grid => {
-            let { piece, state } = grid;
+            let { piece } = grid;
 
             if (isObjectAndNotNull(piece)) {
                 piece = Object.create(piece);
             }
 
-            if (isObjectAndNotNull(state)) {
-                state = Object.create(state);
-            }
+            if (isGridLikeHasState(grid)) {
+                let { state } = grid;
 
-            if ("state" in grid) {
+                if (isObjectAndNotNull(state)) {
+                    state = Object.create(state);
+                }
+
                 return { piece, state };
             }
             else {
                 return { piece };
             }
-        });
+        }) as GridSnapshotMaybeHasState<GridPiece, GridState>[];
 
         return { width, height, grids: gridSnapshots };
     }
@@ -184,8 +184,8 @@ class GridBoard<GridPiece, GridState = undefined> {
         }
 
         for (let i = 0; i < this.grids.length; i++) {
-            let grid = this.grids[i];
-            let gridSnapshot = snapshot.grids[i];
+            let grid = this.grids[i] as Grid<GridPiece, GridState>;
+            let gridSnapshot = snapshot.grids[i] as GridSnapshot<GridPiece, GridState>;
 
             if (isObjectAndNotNull(gridSnapshot.piece) && isObjectAndNotNull(grid.piece)) {
                 if (gridSnapshot.piece instanceof Array && grid.piece instanceof Array) {
@@ -211,7 +211,7 @@ class GridBoard<GridPiece, GridState = undefined> {
                 grid.piece = gridSnapshot.piece;
             }
 
-            if ("state" in gridSnapshot) {
+            if (isGridLikeHasState(gridSnapshot)) {
                 if (isObjectAndNotNull(gridSnapshot.state) && isObjectAndNotNull(grid.state)) {
                     if (gridSnapshot.state instanceof Array && grid.state instanceof Array) {
                         for (let i = 0; i < gridSnapshot.state.length; i++) {
@@ -233,7 +233,7 @@ class GridBoard<GridPiece, GridState = undefined> {
                     }
                 }
                 else {
-                    grid.state = gridSnapshot.state;
+                    grid.state = gridSnapshot.state as GridState;
                 }
             }
             else {

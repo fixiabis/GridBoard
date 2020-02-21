@@ -1,8 +1,9 @@
 import GridBoard from "./GridBoard";
 import GridDirection from "./GridDirection";
 import GridOrientation from "./GridOrientation";
+import { GridMaybeHasState } from "./type";
 
-class Grid<GridPiece, GridState = undefined> {
+class Grid<GridPiece, GridState = void> {
     public readonly x: number;
     public readonly y: number;
     public readonly i: number;
@@ -79,9 +80,9 @@ class Grid<GridPiece, GridState = undefined> {
         return this.getGridByRelativeCoordinate(dx, dy);
     }
 
-    public getGridsByDirectionUntilOverBoundary(direction: GridDirection) {
+    public getGridsByDirectionUntilOverBoundary(direction: GridDirection): GridMaybeHasState<GridPiece, GridState>[] {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this;
+        let grid: GridMaybeHasState<GridPiece, GridState> | null = this as GridMaybeHasState<GridPiece, GridState>;
 
         while (grid = grid.getGridByDirection(direction)) {
             grids.push(grid);
@@ -90,9 +91,9 @@ class Grid<GridPiece, GridState = undefined> {
         return grids;
     }
 
-    public getGridsByDirectionFromOrientationUntilOverBoundary(direction: GridDirection, orientation: GridOrientation = this.board.orientation) {
+    public getGridsByDirectionFromOrientationUntilOverBoundary(direction: GridDirection, orientation: GridOrientation = this.board.orientation): GridMaybeHasState<GridPiece, GridState>[] {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this;
+        let grid: GridMaybeHasState<GridPiece, GridState> | null = this as GridMaybeHasState<GridPiece, GridState>;
 
         while (grid = grid.getGridByDirectionFromOrientation(direction, orientation)) {
             grids.push(grid);
@@ -101,9 +102,9 @@ class Grid<GridPiece, GridState = undefined> {
         return grids;
     }
 
-    public getGridsByDirectionUntilConditionMet(direction: GridDirection, condition: (grid: Grid<GridPiece, GridState>) => boolean) {
+    public getGridsByDirectionUntilConditionMet(direction: GridDirection, condition: (grid: GridMaybeHasState<GridPiece, GridState>) => boolean) {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this;
+        let grid: GridMaybeHasState<GridPiece, GridState> | null = this as GridMaybeHasState<GridPiece, GridState>;
 
         while (grid = grid.getGridByDirection(direction)) {
             if (condition(grid)) {
@@ -116,9 +117,9 @@ class Grid<GridPiece, GridState = undefined> {
         return grids;
     }
 
-    public getGridsByDirectionFromOrientationUntilConditionMet(direction: GridDirection, condition: (grid: Grid<GridPiece, GridState>) => boolean, orientation: GridOrientation = this.board.orientation) {
+    public getGridsByDirectionFromOrientationUntilConditionMet(direction: GridDirection, condition: (grid: GridMaybeHasState<GridPiece, GridState>) => boolean, orientation: GridOrientation = this.board.orientation) {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this;
+        let grid: GridMaybeHasState<GridPiece, GridState> | null = this as GridMaybeHasState<GridPiece, GridState>;
 
         while (grid = grid.getGridByDirectionFromOrientation(direction, orientation)) {
             if (condition(grid)) {
@@ -131,7 +132,7 @@ class Grid<GridPiece, GridState = undefined> {
         return grids;
     }
 
-    public movePieceToGrid(grid: Grid<GridPiece, GridState> | null) {
+    public movePieceToGrid(grid: GridMaybeHasState<GridPiece, GridState> | null) {
         if (grid === null) {
             return false;
         }
