@@ -1,7 +1,7 @@
 import Grid from "./Grid";
 import GridOrientation from "./GridOrientation";
 import { GridBoardSnapshot, GridMaybeHasState, GridSnapshotMaybeHasState } from "./type";
-import { isObjectAndNotNull, isGridLikeHasState } from "./utility";
+import { isObjectAndNotNull, isObjectAndHasKey } from "./utility";
 import { GridSnapshot } from "./index";
 
 /**
@@ -24,9 +24,9 @@ class GridBoard<GridPiece, GridState = never> {
 
     /** 棋盤轉向
      * @see GridOrientation
-     * @property {GridOrientation | number} 棋盤轉向
+     * 棋盤轉向
      */
-    public orientation: GridOrientation = GridOrientation.FBLR;
+    public orientation: number = GridOrientation.FBLR;
 
     constructor(width: number, height: number) {
         this.width = width;
@@ -70,7 +70,7 @@ class GridBoard<GridPiece, GridState = never> {
      * @param x X座標值
      * @param y Y座標值
      * @see GridOrientation
-     * @param {GridOrientation | number} orientation 轉向，預設為棋盤轉向
+     * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {GridMaybeHasState<GridPiece, GridState> | null}
      */
     public getGridByAbsoluteCoordinateFromOrientation(x: number, y: number, orientation: GridOrientation = this.orientation): GridMaybeHasState<GridPiece, GridState> | null {
@@ -150,7 +150,7 @@ class GridBoard<GridPiece, GridState = never> {
      * @param endX 結束X座標值
      * @param endY 結束Y座標值
      * @see GridOrientation
-     * @param {GridOrientation | number} orientation 轉向，預設為棋盤轉向
+     * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {(GridMaybeHasState<GridPiece, GridState> | null)[]}
      */
     public getGridsByRangeOfAbsoluteCoordinatesFromOrientation(startX: number, startY: number, endX: number, endY: number, orientation: GridOrientation = this.orientation): (GridMaybeHasState<GridPiece, GridState> | null)[] {
@@ -209,7 +209,7 @@ class GridBoard<GridPiece, GridState = never> {
                 piece = Object.create(piece);
             }
 
-            if (isGridLikeHasState(grid)) {
+            if (isObjectAndHasKey(grid, "state")) {
                 let { state } = grid;
 
                 if (isObjectAndNotNull(state)) {
@@ -269,7 +269,7 @@ class GridBoard<GridPiece, GridState = never> {
                 grid.piece = gridSnapshot.piece;
             }
 
-            if (isGridLikeHasState(gridSnapshot)) {
+            if (isObjectAndHasKey(gridSnapshot, "state")) {
                 if (isObjectAndNotNull(gridSnapshot.state) && isObjectAndNotNull(grid.state)) {
                     if (gridSnapshot.state instanceof Array && grid.state instanceof Array) {
                         for (let i = 0; i < gridSnapshot.state.length; i++) {

@@ -10,11 +10,10 @@ export function isObjectAndNotNull(target: any): target is object {
 }
 
 /**
- * 判斷類棋盤格物件是否有狀態
- * @see GridLike
- * @param gridLike 類棋盤物件
- * @return {boolean}
+ * 判斷目標是否為物件且包含指定的欄位
+ * @param {any} target 目標
+ * @param {string} key 欄位名稱
  */
-export function isGridLikeHasState(gridLike: Omit<GridLike, "state">): gridLike is GridLike {
-    return "state" in gridLike;
+export function isObjectAndHasKey<Key extends string>(target: any, key: Key): target is { [key in Key]: any } {
+    return typeof target === "object" && key in target;
 }
