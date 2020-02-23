@@ -1,5 +1,3 @@
-import { GridLike } from "./type";
-
 /**
  * 判斷目標是否為物件且不為空值
  * @param {any} target 目標
