@@ -29,7 +29,7 @@ let board = new GridBoard<Chess>(8, 8);
 
 ### Place Chess On Board
 
-Chess can store in ```grid.piece```
+Chess can store in ```grid.piece```, default is ```null```，means empty
 
 ```javascript
 // place white pawn on A2
@@ -55,8 +55,17 @@ gridAtA1.piece = whiteRook;
 
 ### Get Grid By Use GridDirection
 
-common direction provided
+common direction provided  
 
+|    |    |    |    |    |
+|:--:|:--:|:--:|:--:|:--:|
+|FFLL| FFL|  FF| FFR|FFRR|
+| FLL|  FL|   F|  FR| FRR|
+|  LL|   L|   C|   R|  RR|
+| BLL|  BL|   B|  BR| BRR|
+|BBLL| BBL|  BB| BBR|BBRR|
+
+C: current grid
 F: forward of grid  
 B: backward of grid  
 R: rightward of grid  
