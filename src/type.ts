@@ -52,11 +52,10 @@ export interface GridSnapshot<GridPiece, GridState = never> {
 
 /**
  * 也許有狀態的棋盤格
+ * @see Grid
  * @typedef {object} GridMaybeHasState
  * @template GridPiece 棋盤格上面的棋子類型
  * @template GridState 棋盤格自身的狀態類型，預設為 "never"，若使用預設則 "state" 屬性不存在
- * @property {GridPiece | null} piece 棋盤格上面的棋子
- * @property {GridState} state 棋盤格自身的狀態，若 "GridState" 類型為 "never"，則該屬性不存在
  */
 export type GridMaybeHasState<GridPiece, GridState = never> = (
     MaybeHasKey<Grid<GridPiece, GridState>, "state", GridState>
@@ -64,11 +63,10 @@ export type GridMaybeHasState<GridPiece, GridState = never> = (
 
 /**
  * 也許有狀態的棋盤格快照
+ * @see GridSnapshot
  * @typedef {object} GridSnapshotMaybeHasState
  * @template GridPiece 棋盤格快照上面的棋子類型
  * @template GridState 棋盤格快照自身的狀態類型，預設為 "never"，若使用預設則 "state" 屬性不存在
- * @property {GridPiece | null} piece 棋盤格快照上面的棋子
- * @property {GridState} state 棋盤格快照自身的狀態，若 "GridState" 類型為 "never"，則該屬性不存在
  */
 export type GridSnapshotMaybeHasState<GridPiece, GridState = never> = (
     MaybeHasKey<GridSnapshot<GridPiece, GridState>, "state", GridState>
