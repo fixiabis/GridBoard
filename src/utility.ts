@@ -13,5 +13,5 @@ export function isObjectAndNotNull(target: any): target is object {
  * @param {string} key 欄位名稱
  */
 export function isObjectAndHasKey<Key extends string>(target: any, key: Key): target is { [key in Key]: any } {
-    return typeof target === "object" && key in target;
+    return typeof target === "object" && target !== null && key in target;
 }
