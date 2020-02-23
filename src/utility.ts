@@ -11,9 +11,10 @@ export function isObjectAndNotNull(target: any): target is object {
 
 /**
  * 判斷類棋盤格物件是否有狀態
+ * @see GridLike
  * @param gridLike 類棋盤物件
  * @return {boolean}
  */
-export function isGridLikeHasState(gridLike: Pick<GridLike, "piece">): gridLike is GridLike {
+export function isGridLikeHasState(gridLike: Omit<GridLike, "state">): gridLike is GridLike {
     return "state" in gridLike;
 }

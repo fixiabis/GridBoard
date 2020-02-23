@@ -6,16 +6,8 @@ import { GridSnapshot } from "./index";
 
 /**
  * 棋盤
- * @readonly
- * @property {number} width 棋盤寬度
- * @readonly
- * @property {number} height 棋盤高度
- * @readonly
- * @property {number} length 棋盤格總數
- * @readonly
- * @property {GridMaybeHasState<GridPiece, GridState>[]} grids 所有棋盤格
- * @see GridOrientation
- * @property {GridOrientation | number} 棋盤轉向
+ * @template GridPiece 棋盤格上面的棋子類型
+ * @template GridState 棋盤格自身的狀態類型，預設為 "never"
  */
 class GridBoard<GridPiece, GridState = never> {
     /** @readonly 棋盤寬度 */
@@ -30,7 +22,10 @@ class GridBoard<GridPiece, GridState = never> {
     /** @readonly 所有棋盤格 */
     public readonly grids: GridMaybeHasState<GridPiece, GridState>[];
 
-    /** 棋盤轉向 */
+    /** 棋盤轉向
+     * @see GridOrientation
+     * @property {GridOrientation | number} 棋盤轉向
+     */
     public orientation: GridOrientation = GridOrientation.FBLR;
 
     constructor(width: number, height: number) {

@@ -7,16 +7,6 @@ import { GridMaybeHasState } from "./type";
  * 棋盤格
  * @template GridPiece 棋盤格上面的棋子類型
  * @template GridState 棋盤格自身的狀態類型，預設為 "never"
- * @readonly
- * @property {number} x X座標軸值
- * @readonly
- * @property {number} y Y座標軸值
- * @readonly
- * @property {number} i 在棋盤中的索引值
- * @property {GridPiece|null} piece 棋盤格上面的棋子
- * @property {GridState} state 棋盤格自身的狀態
- * @readonly
- * @property {GridBoard<GridPiece, GridState>} board 所在的棋盤
  */
 class Grid<GridPiece, GridState = never> {
     /** @readonly X座標軸值 */
