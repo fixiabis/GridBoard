@@ -177,7 +177,7 @@ class Grid<GridPiece, GridState = never> {
      * @param {(grid: GridMaybeHasState<GridPiece, GridState>) => boolean} condition 條件判斷
      * @return {GridMaybeHasState<GridPiece, GridState>[]}
      */
-    public getGridsByDirectionUntilConditionMet(direction: GridDirection | number, condition: (grid: GridMaybeHasState<GridPiece, GridState>) => boolean) {
+    public getGridsByDirectionUntilConditionMet(direction: GridDirection | number, condition: (grid: GridMaybeHasState<GridPiece, GridState>) => boolean): GridMaybeHasState<GridPiece, GridState>[] {
         let grids = [];
         let grid: GridMaybeHasState<GridPiece, GridState> | null = this as GridMaybeHasState<GridPiece, GridState>;
 
@@ -201,7 +201,7 @@ class Grid<GridPiece, GridState = never> {
      * @param {GridOrientation | number} orientation 轉向，預設為棋盤轉向
      * @return {GridMaybeHasState<GridPiece, GridState>[]}
      */
-    public getGridsByDirectionFromOrientationUntilConditionMet(direction: GridDirection | number, condition: (grid: GridMaybeHasState<GridPiece, GridState>) => boolean, orientation: GridOrientation | number = this.board.orientation) {
+    public getGridsByDirectionFromOrientationUntilConditionMet(direction: GridDirection | number, condition: (grid: GridMaybeHasState<GridPiece, GridState>) => boolean, orientation: GridOrientation | number = this.board.orientation): GridMaybeHasState<GridPiece, GridState>[] {
         let grids = [];
         let grid: GridMaybeHasState<GridPiece, GridState> | null = this as GridMaybeHasState<GridPiece, GridState>;
 
@@ -221,7 +221,7 @@ class Grid<GridPiece, GridState = never> {
      * @param {GridMaybeHasState<GridPiece, GridState> | null} grid 棋盤格
      * @return {boolean} 是否移動成功
      */
-    public movePieceToGrid(grid: GridMaybeHasState<GridPiece, GridState> | null) {
+    public movePieceToGrid(grid: GridMaybeHasState<GridPiece, GridState> | null): boolean {
         if (grid === null) {
             return false;
         }
