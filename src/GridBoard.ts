@@ -4,11 +4,33 @@ import { GridBoardSnapshot, GridMaybeHasState, GridSnapshotMaybeHasState } from 
 import { isObjectAndNotNull, isGridLikeHasState } from "./utility";
 import { GridSnapshot } from "./index";
 
+/**
+ * 棋盤
+ * @readonly
+ * @property {number} width 棋盤寬度
+ * @readonly
+ * @property {number} height 棋盤高度
+ * @readonly
+ * @property {number} length 棋盤格總數
+ * @readonly
+ * @property {GridMaybeHasState<GridPiece, GridState>[]} grids 所有棋盤格
+ * @see GridOrientation
+ * @property {GridOrientation | number} 棋盤轉向
+ */
 class GridBoard<GridPiece, GridState = never> {
+    /** @readonly 棋盤寬度 */
     public readonly width: number;
+
+    /** @readonly 棋盤高度 */
     public readonly height: number;
+
+    /** @readonly 棋盤格總數 */
     public readonly length: number;
+
+    /** @readonly 所有棋盤格 */
     public readonly grids: GridMaybeHasState<GridPiece, GridState>[];
+
+    /** 棋盤轉向 */
     public orientation: GridOrientation = GridOrientation.FBLR;
 
     constructor(width: number, height: number) {
@@ -25,6 +47,12 @@ class GridBoard<GridPiece, GridState = never> {
         }
     }
 
+    /**
+     * 取得棋盤格藉由絕對座標
+     * @param x X座標值
+     * @param y Y座標值
+     * @return {GridMaybeHasState<GridPiece, GridState> | null}
+     */
     public getGridByAbsoluteCoordinate(x: number, y: number): GridMaybeHasState<GridPiece, GridState> | null {
         let isOverBoundary = (
             x < 0 ||
@@ -42,6 +70,14 @@ class GridBoard<GridPiece, GridState = never> {
         return this.grids[i];
     }
 
+    /**
+     * 取得棋盤格藉由絕對座標來自轉向
+     * @param x X座標值
+     * @param y Y座標值
+     * @see GridOrientation
+     * @param {GridOrientation | number} orientation 轉向，預設為棋盤轉向
+     * @return {GridMaybeHasState<GridPiece, GridState> | null}
+     */
     public getGridByAbsoluteCoordinateFromOrientation(x: number, y: number, orientation: GridOrientation = this.orientation) {
         let isAxisNeedSwap = (0b100 & orientation) >> 2;
         let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
@@ -62,6 +98,14 @@ class GridBoard<GridPiece, GridState = never> {
         return this.getGridByAbsoluteCoordinate(x, y);
     }
 
+    /**
+     * 取得多個棋盤格藉由絕對座標範圍
+     * @param startX 起始X座標值
+     * @param startY 起始Y座標值
+     * @param endX 結束X座標值
+     * @param endY 結束Y座標值
+     * @return {(GridMaybeHasState<GridPiece, GridState> | null)[]}
+     */
     public getGridsByRangeOfAbsoluteCoordinates(startX: number, startY: number, endX: number, endY: number) {
         let grids = [];
 
@@ -104,6 +148,16 @@ class GridBoard<GridPiece, GridState = never> {
         return grids;
     }
 
+    /**
+     * 取得多個棋盤格藉由絕對座標範圍來自轉向
+     * @param startX 起始X座標值
+     * @param startY 起始Y座標值
+     * @param endX 結束X座標值
+     * @param endY 結束Y座標值
+     * @see GridOrientation
+     * @param {GridOrientation | number} orientation 轉向，預設為棋盤轉向
+     * @return {(GridMaybeHasState<GridPiece, GridState> | null)[]}
+     */
     public getGridsByRangeOfAbsoluteCoordinatesFromOrientation(startX: number, startY: number, endX: number, endY: number, orientation: GridOrientation = this.orientation) {
         let grids = [];
 
@@ -146,6 +200,10 @@ class GridBoard<GridPiece, GridState = never> {
         return grids;
     }
 
+    /** 
+     * 取得棋盤快照
+     * @return {GridBoardSnapshot<GridPiece, GridState>}
+     */
     public getSnapshot(): GridBoardSnapshot<GridPiece, GridState> {
         let { width, height, grids } = this;
 
@@ -173,6 +231,11 @@ class GridBoard<GridPiece, GridState = never> {
         return { width, height, grids: gridSnapshots };
     }
 
+    /** 
+     * 設置棋盤快照
+     * @param {GridBoardSnapshot<GridPiece, GridState>} 棋盤快照
+     * @return {boolean} 設置是否成功
+     */
     public setSnapshot(snapshot: GridBoardSnapshot<GridPiece, GridState>) {
         let isSizeNotMatch = (
             snapshot.width !== this.width ||

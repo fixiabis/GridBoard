@@ -1,3 +1,12 @@
+/**
+ * 棋盤格方向
+ * @enum {number}
+ * 以十六進位表示法來看，共十六個位元，每四位元為一個單位，從左開始看分別代表：
+ * 往前的單位，0 ~ 15單位，等同於Y座標軸相對減少
+ * 往後的單位，0 ~ 15單位，等同於Y座標軸相對增加
+ * 往左的單位，0 ~ 15單位，等同於X座標軸相對減少
+ * 往右的單位，0 ~ 15單位，等同於X座標軸相對增加
+ */
 enum GridDirection {
     C = 0x0000,
 
@@ -28,7 +37,5 @@ enum GridDirection {
     BLL = 0x0120,
     BRR = 0x0102,
 }
-
-// format: forward unit, backward unit, leftward unit, rightward unit
 
 export default GridDirection;
