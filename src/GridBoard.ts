@@ -78,7 +78,7 @@ class GridBoard<GridPiece, GridState = never> {
      * @param {GridOrientation | number} orientation 轉向，預設為棋盤轉向
      * @return {GridMaybeHasState<GridPiece, GridState> | null}
      */
-    public getGridByAbsoluteCoordinateFromOrientation(x: number, y: number, orientation: GridOrientation = this.orientation) {
+    public getGridByAbsoluteCoordinateFromOrientation(x: number, y: number, orientation: GridOrientation = this.orientation): GridMaybeHasState<GridPiece, GridState> | null {
         let isAxisNeedSwap = (0b100 & orientation) >> 2;
         let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
         let isYAxisOrderByDescending = (0b001 & orientation);
@@ -106,7 +106,7 @@ class GridBoard<GridPiece, GridState = never> {
      * @param endY 結束Y座標值
      * @return {(GridMaybeHasState<GridPiece, GridState> | null)[]}
      */
-    public getGridsByRangeOfAbsoluteCoordinates(startX: number, startY: number, endX: number, endY: number) {
+    public getGridsByRangeOfAbsoluteCoordinates(startX: number, startY: number, endX: number, endY: number): (GridMaybeHasState<GridPiece, GridState> | null)[] {
         let grids = [];
 
         let isXAxisOrderByDescending = startX > endX;
@@ -158,7 +158,7 @@ class GridBoard<GridPiece, GridState = never> {
      * @param {GridOrientation | number} orientation 轉向，預設為棋盤轉向
      * @return {(GridMaybeHasState<GridPiece, GridState> | null)[]}
      */
-    public getGridsByRangeOfAbsoluteCoordinatesFromOrientation(startX: number, startY: number, endX: number, endY: number, orientation: GridOrientation = this.orientation) {
+    public getGridsByRangeOfAbsoluteCoordinatesFromOrientation(startX: number, startY: number, endX: number, endY: number, orientation: GridOrientation = this.orientation): (GridMaybeHasState<GridPiece, GridState> | null)[] {
         let grids = [];
 
         let isXAxisOrderByDescending = startX > endX;
@@ -236,7 +236,7 @@ class GridBoard<GridPiece, GridState = never> {
      * @param {GridBoardSnapshot<GridPiece, GridState>} 棋盤快照
      * @return {boolean} 設置是否成功
      */
-    public setSnapshot(snapshot: GridBoardSnapshot<GridPiece, GridState>) {
+    public setSnapshot(snapshot: GridBoardSnapshot<GridPiece, GridState>): boolean {
         let isSizeNotMatch = (
             snapshot.width !== this.width ||
             snapshot.height !== this.height
