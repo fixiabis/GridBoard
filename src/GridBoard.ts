@@ -1,8 +1,7 @@
 import Grid from "./Grid";
 import GridOrientation from "./GridOrientation";
-import { GridBoardSnapshot, GridMaybeHasState, GridSnapshotMaybeHasState } from "./type";
+import { GridBoardSnapshot, GridSnapshot, GridMaybeHasState, GridSnapshotMaybeHasState } from "./type";
 import { isObjectAndNotNull, isObjectAndHasKey } from "./utility";
-import { GridSnapshot } from "./index";
 
 /**
  * 棋盤
