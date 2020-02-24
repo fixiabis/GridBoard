@@ -140,9 +140,8 @@ board.getGridByAbsoluteCoordinate(2, 1);
 
 looks like this:
 
-|       |       |       |       |       |
-|:-----:|:-----:|:-----:|:-----:|:-----:|
 |       |   y   |       |       |       |
+|:-----:|:-----:|:-----:|:-----:|:-----:|
 |   x   |       |   0   |   1   |   2   |
 |       |   0   |  0,0  |  1,0  |  2,0  |
 |       |   1   |  0,1  |  1,1  |**2,1**|
@@ -159,9 +158,8 @@ grid.getGridByRelativeCoordinate(-1, -1);
 
 looks like this:
 
-|       |       |       |       |       |
-|:-----:|:-----:|:-----:|:-----:|:-----:|
 |       |   y   |       |       |       |
+|:-----:|:-----:|:-----:|:-----:|:-----:|
 |   x   |       |   0   |   1   |   2   |
 |       |   0   |  0,0  |**1,0**|  2,0  |
 |       |   1   |  0,1  |  1,1  |  2,1  |
@@ -200,9 +198,8 @@ grid.getGridByDirection(GridDirection.LL);
 
 looks like this:
 
-|       |       |       |       |       |
-|:-----:|:-----:|:-----:|:-----:|:-----:|
 |       |   y   |       |       |       |
+|:-----:|:-----:|:-----:|:-----:|:-----:|
 |   x   |       |   0   |   1   |   2   |
 |       |   0   |  0,0  |  1,0  |  2,0  |
 |       |   1   |**0,1**|  1,1  |  2,1  |
@@ -213,65 +210,57 @@ Orientation didn't affect grid's real position.
 all orientation provided:
 
 #### FBLR(default):
-|   |   |   |   |
-|:-:|:-:|:-:|:-:|
 |   | 0 | 1 | 2 |
+|:-:|:-:|:-:|:-:|
 | 0 | FL|  F| FR|
 | 1 |  L|  C|  R|
 | 2 | BL|  B| BR|
 
 #### BFLR(F -> B, B -> F, y order by descending):
-|   |   |   |   |
-|:-:|:-:|:-:|:-:|
 |   | 0 | 1 | 2 |
+|:-:|:-:|:-:|:-:|
 | 2 | BL|  B| BR|
 | 1 |  L|  C|  R|
 | 0 | FL|  F| FR|
 
 #### FBRL(L -> R, R -> L, x order by descending):
-|   |   |   |   |
-|:-:|:-:|:-:|:-:|
 |   | 2 | 1 | 0 |
+|:-:|:-:|:-:|:-:|
 | 0 | FR|  F| FL|
 | 1 |  R|  C|  L|
 | 2 | BR|  B| BL|
 
 #### BFRL(F -> B, B -> F, L -> R, R -> L, x, y order by descending):
-|   |   |   |   |
-|:-:|:-:|:-:|:-:|
 |   | 2 | 1 | 0 |
+|:-:|:-:|:-:|:-:|
 | 2 | BR|  B| BL|
 | 1 |  R|  C|  L|
 | 0 | FR|  F| FL|
 
 #### LRFB(F -> L, B -> R, L -> F, R -> B, x, y axis swapped):
-|   |   |   |   |
-|:-:|:-:|:-:|:-:|
 |   | 0 | 1 | 2 |
+|:-:|:-:|:-:|:-:|
 | 0 | FL|  L| BL|
 | 1 |  F|  C|  B|
 | 2 | FR|  R| BR|
 
 #### LRBF(F -> L, B -> R, L -> B, R -> F, x, y axis swapped, y order by descending):
-|   |   |   |   |
-|:-:|:-:|:-:|:-:|
 |   | 2 | 1 | 0 |
+|:-:|:-:|:-:|:-:|
 | 0 | BL|  L| FL|
 | 1 |  B|  C|  F|
 | 2 | BR|  R| FR|
 
 #### RLFB(F -> R, B -> L, L -> F, R -> B, x, y axis swapped, x order by descending):
-|   |   |   |   |
-|:-:|:-:|:-:|:-:|
 |   | 0 | 1 | 2 |
+|:-:|:-:|:-:|:-:|
 | 2 | FR|  R| BR|
 | 1 |  F|  C|  B|
 | 0 | FL|  L| BL|
 
 #### RLBF(F -> R, B -> L, L -> B, R -> F, x, y axis swapped, x, y order by descending):
-|   |   |   |   |
-|:-:|:-:|:-:|:-:|
 |   | 2 | 1 | 0 |
+|:-:|:-:|:-:|:-:|
 | 2 | BR|  R| FR|
 | 1 |  B|  C|  F|
 | 0 | BL|  L| FL|
@@ -289,9 +278,8 @@ board.getGridByAbsoluteCoordinateFromOrientation(0, 0, GridDirection.FBLR); // u
 
 looks like this:
 
-|       |       |       |       |       |
-|:-----:|:-----:|:-----:|:-----:|:-----:|
 |       |   y   |       |       |       |
+|:-----:|:-----:|:-----:|:-----:|:-----:|
 |   x   |       |   2   |   1   |   0   |
 |       |   1   |**0,0**|  1,0  |  2,0  |
 |       |   0   |  0,1  |  1,1  |  2,1  |
@@ -310,9 +298,8 @@ grid.getGridByRelativeCoordinateFromOrientation(+1, +1, GridDirection.FBLR); // 
 
 looks like this:
 
-|       |       |       |       |       |
-|:-----:|:-----:|:-----:|:-----:|:-----:|
 |       |   y   |       |       |       |
+|:-----:|:-----:|:-----:|:-----:|:-----:|
 |   x   |       |   2   |   1   |   0   |
 |       |   1   |  0,0  |  1,0  |  2,0  |
 |       |   0   |  0,1  |**1,1**|  2,1  |
@@ -331,9 +318,8 @@ grid.getGridByDirectionFromOrientation(GridDirection.RR, GridOrientation.FBLR); 
 
 looks like this:
 
-|       |       |       |       |       |
-|:-----:|:-----:|:-----:|:-----:|:-----:|
 |       |   y   |       |       |       |
+|:-----:|:-----:|:-----:|:-----:|:-----:|
 |   x   |       |   2   |   1   |   0   |
 |       |   1   |  0,0  |  1,0  |**2,0**|
 |       |   0   |  0,1  |  1,1  |  2,1  |
@@ -370,9 +356,8 @@ board.getGridsByRangeOfAbsoluteCoordinates(0, 0, 1, 1);
 
 looks like this:
 
-|       |       |       |       |       |
-|:-----:|:-----:|:-----:|:-----:|:-----:|
 |       |   y   |       |       |       |
+|:-----:|:-----:|:-----:|:-----:|:-----:|
 |   x   |       |   0   |   1   |   2   |
 |       |   0   |**0,0**|**1,0**|  2,0  |
 |       |   1   |**0,1**|**1,1**|  2,1  |
@@ -390,9 +375,8 @@ board.getGridsByRangeOfAbsoluteCoordinatesFromOrientation(0, 0, 1, 1, GridOrient
 
 looks like this:
 
-|       |       |       |       |       |
-|:-----:|:-----:|:-----:|:-----:|:-----:|
 |       |   y   |       |       |       |
+|:-----:|:-----:|:-----:|:-----:|:-----:|
 |   x   |       |   2   |   1   |   0   |
 |       |   1   |**0,0**|**1,0**|  2,0  |
 |       |   0   |**0,1**|**1,1**|  2,1  |
@@ -409,9 +393,8 @@ grid.getGridByDirectionUntilOverBoundary(GridDirection.L);
 
 looks like this:
 
-|       |       |       |       |       |
-|:-----:|:-----:|:-----:|:-----:|:-----:|
 |       |   y   |       |       |       |
+|:-----:|:-----:|:-----:|:-----:|:-----:|
 |   x   |       |   0   |   1   |   2   |
 |       |   0   |  0,0  |  1,0  |  2,0  |
 |       |   1   |**0,1**|**1,1**|  2,1  |
@@ -431,9 +414,8 @@ grid.getGridByDirectionFromOrientationUntilOverBoundary(GridDirection.R, GridOri
 
 looks like this:
 
-|       |       |       |       |       |
-|:-----:|:-----:|:-----:|:-----:|:-----:|
 |       |   y   |       |       |       |
+|:-----:|:-----:|:-----:|:-----:|:-----:|
 |   x   |       |   2   |   1   |   0   |
 |       |   1   |  0,0  |**1,0**|**2,0**|
 |       |   0   |  0,1  |  1,1  |  2,1  |
