@@ -1,5 +1,4 @@
 import GridBoard from "./GridBoard";
-import { GridMaybeHasState } from "./type";
 import { isObjectAndHasKey } from "./utility";
 
 /**
@@ -38,9 +37,9 @@ class Grid<GridPiece, GridState = never> {
      * 取得棋盤格藉由方向
      * @see GridDirection
      * @param {number} direction 方向
-     * @return {GridMaybeHasState<GridPiece, GridState> | null}
+     * @return {Grid<GridPiece, GridState> | null}
      */
-    public getGridByDirection(direction: number): GridMaybeHasState<GridPiece, GridState> | null {
+    public getGridByDirection(direction: number): Grid<GridPiece, GridState> | null {
         let f = (0xF000 & direction) >> 12;
         let b = (0x0F00 & direction) >> 8;
         let l = (0x00F0 & direction) >> 4;
@@ -55,9 +54,9 @@ class Grid<GridPiece, GridState = never> {
      * @param {number} direction 方向
      * @see GridOrientation
      * @param {number} orientation 轉向，預設為棋盤轉向
-     * @return {GridMaybeHasState<GridPiece, GridState> | null}
+     * @return {Grid<GridPiece, GridState> | null}
      */
-    public getGridByDirectionFromOrientation(direction: number, orientation: number = this.board.orientation): GridMaybeHasState<GridPiece, GridState> | null {
+    public getGridByDirectionFromOrientation(direction: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState> | null {
         let isAxisNeedSwap = (0b100 & orientation) >> 2;
         let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
         let isYAxisOrderByDescending = (0b001 & orientation);
@@ -86,9 +85,9 @@ class Grid<GridPiece, GridState = never> {
      * 取得棋盤格藉由相對座標
      * @param {number} dx 相對X座標軸值
      * @param {number} dy 相對Y座標軸值
-     * @return {GridMaybeHasState<GridPiece, GridState> | null}
+     * @return {Grid<GridPiece, GridState> | null}
      */
-    public getGridByRelativeCoordinate(dx: number, dy: number): GridMaybeHasState<GridPiece, GridState> | null {
+    public getGridByRelativeCoordinate(dx: number, dy: number): Grid<GridPiece, GridState> | null {
         let x = this.x + dx;
         let y = this.y + dy;
 
@@ -101,9 +100,9 @@ class Grid<GridPiece, GridState = never> {
      * @param {number} dy 相對Y座標軸值
      * @see GridOrientation
      * @param {number} orientation 轉向，預設為棋盤轉向
-     * @return {GridMaybeHasState<GridPiece, GridState> | null}
+     * @return {Grid<GridPiece, GridState> | null}
      */
-    public getGridByRelativeCoordinateFromOrientation(dx: number, dy: number, orientation: number = this.board.orientation): GridMaybeHasState<GridPiece, GridState> | null {
+    public getGridByRelativeCoordinateFromOrientation(dx: number, dy: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState> | null {
         let isAxisNeedSwap = (0b100 & orientation) >> 2;
         let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
         let isYAxisOrderByDescending = (0b001 & orientation);
@@ -127,11 +126,11 @@ class Grid<GridPiece, GridState = never> {
      * 取得多個棋盤格藉由方向直到超出棋盤界線
      * @see GridDirection
      * @param {number} direction 方向
-     * @return {GridMaybeHasState<GridPiece, GridState>[]}
+     * @return {Grid<GridPiece, GridState>[]}
      */
-    public getGridsByDirectionUntilOverBoundary(direction: number): GridMaybeHasState<GridPiece, GridState>[] {
+    public getGridsByDirectionUntilOverBoundary(direction: number): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: GridMaybeHasState<GridPiece, GridState> | null = this as GridMaybeHasState<GridPiece, GridState>;
+        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
 
         while (grid = grid.getGridByDirection(direction)) {
             grids.push(grid);
@@ -146,11 +145,11 @@ class Grid<GridPiece, GridState = never> {
      * @param {number} direction 方向
      * @see GridOrientation
      * @param {number} orientation 轉向，預設為棋盤轉向
-     * @return {GridMaybeHasState<GridPiece, GridState>[]}
+     * @return {Grid<GridPiece, GridState>[]}
      */
-    public getGridsByDirectionFromOrientationUntilOverBoundary(direction: number, orientation: number = this.board.orientation): GridMaybeHasState<GridPiece, GridState>[] {
+    public getGridsByDirectionFromOrientationUntilOverBoundary(direction: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: GridMaybeHasState<GridPiece, GridState> | null = this as GridMaybeHasState<GridPiece, GridState>;
+        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
 
         while (grid = grid.getGridByDirectionFromOrientation(direction, orientation)) {
             grids.push(grid);
@@ -163,12 +162,12 @@ class Grid<GridPiece, GridState = never> {
      * 取得多個棋盤格藉由方向直到條件達成或超出棋盤界線
      * @see GridDirection
      * @param {number} direction 方向
-     * @param {(grid: GridMaybeHasState<GridPiece, GridState>) => boolean} condition 條件判斷
-     * @return {GridMaybeHasState<GridPiece, GridState>[]}
+     * @param {(grid: Grid<GridPiece, GridState>) => boolean} condition 條件判斷
+     * @return {Grid<GridPiece, GridState>[]}
      */
-    public getGridsByDirectionUntilConditionMet(direction: number, condition: (grid: GridMaybeHasState<GridPiece, GridState>) => boolean): GridMaybeHasState<GridPiece, GridState>[] {
+    public getGridsByDirectionUntilConditionMet(direction: number, condition: (grid: Grid<GridPiece, GridState>) => boolean): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: GridMaybeHasState<GridPiece, GridState> | null = this as GridMaybeHasState<GridPiece, GridState>;
+        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
 
         while (grid = grid.getGridByDirection(direction)) {
             if (condition(grid)) {
@@ -185,14 +184,14 @@ class Grid<GridPiece, GridState = never> {
      * 取得多個棋盤格藉由方向來自轉向直到條件達成或超出棋盤界線
      * @see GridDirection
      * @param {number} direction 方向
-     * @param {(grid: GridMaybeHasState<GridPiece, GridState>) => boolean} condition 條件判斷
+     * @param {(grid: Grid<GridPiece, GridState>) => boolean} condition 條件判斷
      * @see GridOrientation
      * @param {number} orientation 轉向，預設為棋盤轉向
-     * @return {GridMaybeHasState<GridPiece, GridState>[]}
+     * @return {Grid<GridPiece, GridState>[]}
      */
-    public getGridsByDirectionFromOrientationUntilConditionMet(direction: number, condition: (grid: GridMaybeHasState<GridPiece, GridState>) => boolean, orientation: number = this.board.orientation): GridMaybeHasState<GridPiece, GridState>[] {
+    public getGridsByDirectionFromOrientationUntilConditionMet(direction: number, condition: (grid: Grid<GridPiece, GridState>) => boolean, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: GridMaybeHasState<GridPiece, GridState> | null = this as GridMaybeHasState<GridPiece, GridState>;
+        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
 
         while (grid = grid.getGridByDirectionFromOrientation(direction, orientation)) {
             if (condition(grid)) {
@@ -207,10 +206,10 @@ class Grid<GridPiece, GridState = never> {
 
     /**
      * 移動棋子到棋盤格
-     * @param {GridMaybeHasState<GridPiece, GridState>} grid 棋盤格
+     * @param {Grid<GridPiece, GridState>} grid 棋盤格
      * @return {boolean} 是否移動成功
      */
-    public movePieceToGrid(grid: GridMaybeHasState<GridPiece, GridState>): boolean {
+    public movePieceToGrid(grid: Grid<GridPiece, GridState>): boolean {
         if (!isObjectAndHasKey(grid, "piece")) {
             return false;
         }

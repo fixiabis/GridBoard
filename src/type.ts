@@ -1,19 +1,6 @@
 import Grid from "./Grid";
 
 /**
- * 也許有特定欄位的介面，若欄位值為 "never" 則該介面無此欄位
- * @typedef InterfaceMaybeHasKey
- * @template Interface 介面
- * @template Key 欄位
- * @template Value 欄位值，預設為 "never"
- */
-export type MaybeHasKey<Interface, Key extends string, Value = never> = (
-    Value[] extends never[]
-    ? Omit<Interface, Key>
-    : Interface
-);
-
-/**
  * 棋盤快照
  * @typedef {object} GridBoardSnapshot
  * @template GridPiece 棋盤格快照上面的棋子類型
@@ -31,7 +18,7 @@ export interface GridBoardSnapshot<GridPiece, GridState = never> {
     height: number;
 
     /** 棋盤格快照 */
-    grids: GridSnapshotMaybeHasState<GridPiece, GridState>[];
+    grids: GridSnapshot<GridPiece, GridState>[];
 }
 
 /**
@@ -47,27 +34,5 @@ export interface GridSnapshot<GridPiece, GridState = never> {
     piece: GridPiece | null;
 
     /** 棋盤格自身的狀態 */
-    state: GridState;
+    state?: GridState;
 }
-
-/**
- * 也許有狀態的棋盤格
- * @see Grid
- * @typedef {object} GridMaybeHasState
- * @template GridPiece 棋盤格上面的棋子類型
- * @template GridState 棋盤格自身的狀態類型，預設為 "never"，若使用預設則 "state" 屬性不存在
- */
-export type GridMaybeHasState<GridPiece, GridState = never> = (
-    MaybeHasKey<Grid<GridPiece, GridState>, "state", GridState>
-);
-
-/**
- * 也許有狀態的棋盤格快照
- * @see GridSnapshot
- * @typedef {object} GridSnapshotMaybeHasState
- * @template GridPiece 棋盤格快照上面的棋子類型
- * @template GridState 棋盤格快照自身的狀態類型，預設為 "never"，若使用預設則 "state" 屬性不存在
- */
-export type GridSnapshotMaybeHasState<GridPiece, GridState = never> = (
-    MaybeHasKey<GridSnapshot<GridPiece, GridState>, "state", GridState>
-);
