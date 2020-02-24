@@ -3,4 +3,6 @@ import GridBoard from "./GridBoard";
 import GridDirection from "./GridDirection";
 import GridOrientation from "./GridOrientation";
 
-export { GridBoard, GridDirection, GridOrientation, Grid };
+export * from "./type";
+export * from "./utility";
+export { GridBoard, Grid, GridDirection, GridOrientation };

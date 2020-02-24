@@ -2,7 +2,7 @@ import typescript from 'rollup-plugin-typescript2';
 import { uglify } from 'rollup-plugin-uglify';
 
 let defaults = { compilerOptions: { declaration: true } };
-let override = { compilerOptions: { declaration: false } };
+let hideDeclaration = { compilerOptions: { declaration: false } };
 
 export default [
   {
@@ -27,7 +27,7 @@ export default [
     plugins: [
       typescript({
         tsconfig: "tsconfig.json",
-        tsconfigDefaults: override,
+        tsconfigDefaults: hideDeclaration,
       })
     ],
 
@@ -44,7 +44,7 @@ export default [
     plugins: [
       typescript({
         tsconfig: "tsconfig.json",
-        tsconfigDefaults: override,
+        tsconfigDefaults: hideDeclaration,
       }),
       uglify()
     ],
