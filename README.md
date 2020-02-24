@@ -63,7 +63,7 @@ let board = new GridBoard(8, 8);
 
 #### In Browser Of Early Version (Like Internet Explorer, IE)
 
-if your JavaScript version is early than 5th edition, you will need add polyfill for ```Array.prototype.map``` by this link's sample:
+if your JavaScript version is early than 5th edition, you may add polyfill for ```Array.prototype.map``` by this link's sample:
 https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/map#Polyfill
 
 ```javascript
@@ -71,3 +71,4 @@ var GridBoard = window["gridboard"].GridBoard;
 
 var board = new GridBoard(8, 8);
 ```
+
