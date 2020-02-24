@@ -1,5 +1,3 @@
-import Grid from "./Grid";
-
 /**
  * 棋盤快照
  * @typedef {object} GridBoardSnapshot
@@ -7,8 +5,8 @@ import Grid from "./Grid";
  * @template GridState 棋盤格快照自身的狀態類型，預設為 "never"
  * @property {number} width 棋盤寬度
  * @property {number} height 棋盤高度
- * @property {GridSnapshot<GridPiece, GridState>[]} grids 棋盤格快照
  * @see GridSnapshot
+ * @property {GridSnapshot<GridPiece, GridState>[]} grids 棋盤格快照
  */
 export interface GridBoardSnapshot<GridPiece, GridState = never> {
     /** 棋盤寬度 */
