@@ -9,7 +9,7 @@ npm install --save gridboard
 ```
 
 Also available UMD package defines a ```window.gridboard``` global variable.
-Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@1.1.1/dist/gridboard.js
+Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@2.0.0/dist/gridboard.js
 
 ### Create A Chess Board (use TypeScript)
 
@@ -40,7 +40,7 @@ let board = new GridBoard(8, 8);
 #### In Browser (use RequireJS)
 
 ```javascript
-require(["https://unpkg.com/gridboard@1.1.1/dist/gridboard"], function (gridboard) {
+require(["https://unpkg.com/gridboard@2.0.0/dist/gridboard"], function (gridboard) {
     var GridBoard = gridboard.GridBoard;
 
     var board = new GridBoard(8, 8);
@@ -52,7 +52,7 @@ require(["https://unpkg.com/gridboard@1.1.1/dist/gridboard"], function (gridboar
 Add this tag in your html file's ```<head>``` tag
 
 ```html
-<script src="https://unpkg.com/gridboard@1.1.1/dist/gridboard.js"></script>
+<script src="https://unpkg.com/gridboard@2.0.0/dist/gridboard.js"></script>
 ```
 
 ```javascript
@@ -72,7 +72,7 @@ var GridBoard = window["gridboard"].GridBoard;
 var board = new GridBoard(8, 8);
 ```
 
-### Place Chess On Board
+### Place Chess On Grid
 
 Chess can store in ```grid.piece```
 
@@ -89,6 +89,44 @@ let whitePawn = {
 };
 
 gridAtA2.piece = whitePawn;
+```
+
+### Add State On Grid
+
+```javascript
+import { GridBoard } from "gridboard";
+
+let board = new GridBoard(8, 8);
+
+board.grids.forEach((grid, i) => {
+    grid.state = {
+        color: i % 2 === 0
+            ? "white"
+            : "black"
+    };
+});
+```
+
+In TypeScript, State can define interface on it. For Example:
+
+```typescript
+import { GridBoard } from "gridboard";
+
+type ChessColor = "white" | "black";
+type ChessType = "king" | "queen" | "knight" | "bishop" | "rook" | "pawn";
+
+interface Chess {
+    color: ChessColor;
+    type: ChessType;
+}
+
+type GridColor = "white" | "black";
+
+interface GridStyle {
+    color: GridColor;
+}
+
+let board = new GridBoard<Chess, GridStyle>(8, 8);
 ```
 
 ### Get Grid By Absolute Coordinate
@@ -150,7 +188,7 @@ For example: 0x3000 means forward 3 units.
 
 ### Get Grid By Direction
 
-Direction can add code readability.
+Direction can let code gain more readability.
 
 ```javascript
 import { GridBoard, GridDirection } from "gridboard";
@@ -246,7 +284,7 @@ import { GridBoard, GridOrientation } from "gridboard";
 let board = new GridBoard(3, 2);
 board.orientation = GridOrientation.BFRL;
 board.getGridByAbsoluteCoordinateFromOrientation(2, 1);
-board.getGridByAbsoluteCoordinateFromOrientation(0, 0, GridDirection.FBLR); // use direction only one times
+board.getGridByAbsoluteCoordinateFromOrientation(0, 0, GridDirection.FBLR); // use orientation only one times
 ```
 
 looks like this:
@@ -267,7 +305,7 @@ let board = new GridBoard(3, 2);
 board.orientation = GridOrientation.BFRL;
 board.getGridByAbsoluteCoordinateFromOrientation(2, 1);
 grid.getGridByRelativeCoordinateFromOrientation(-1, -1);
-grid.getGridByRelativeCoordinateFromOrientation(+1, +1, GridDirection.FBLR); // use direction only one times
+grid.getGridByRelativeCoordinateFromOrientation(+1, +1, GridDirection.FBLR); // use orientation only one times
 ```
 
 looks like this:
@@ -288,7 +326,7 @@ let board = new GridBoard(3, 2);
 board.orientation = GridOrientation.BFRL;
 let grid = board.getGridByAbsoluteCoordinateFromOrientation(2, 1);
 grid.getGridByDirectionFromOrientation(GridDirection.LL);
-grid.getGridByDirectionFromOrientation(GridDirection.RR, GridOrientation.FBLR); // use direction only one times
+grid.getGridByDirectionFromOrientation(GridDirection.RR, GridOrientation.FBLR); // use orientation only one times
 ```
 
 looks like this:
@@ -347,7 +385,7 @@ import { GridBoard, GridOrientation } from "gridboard";
 let board = new GridBoard(3, 2);
 board.orientation = GridOrientation.BFRL;
 board.getGridsByRangeOfAbsoluteCoordinatesFromOrientation(1, 0, 2, 1);
-board.getGridsByRangeOfAbsoluteCoordinatesFromOrientation(0, 0, 1, 1, GridOrientation.FBLR); // use direction only one times
+board.getGridsByRangeOfAbsoluteCoordinatesFromOrientation(0, 0, 1, 1, GridOrientation.FBLR); // use orientation only one times
 ```
 
 looks like this:
@@ -388,6 +426,7 @@ let board = new GridBoard(3, 2);
 board.orientation = GridOrientation.BFRL;
 let grid = board.getGridByAbsoluteCoordinateFromOrientation(2, 1);
 grid.getGridByDirectionFromOrientationUntilOverBoundary(GridDirection.L);
+grid.getGridByDirectionFromOrientationUntilOverBoundary(GridDirection.R, GridOrientation.FBLR); // use orientation only one times
 ```
 
 looks like this:
@@ -422,4 +461,5 @@ let grid = board.getGridByAbsoluteCoordinateFromOrientation(2, 1);
 
 // until met grid has piece
 grid.getGridByDirectionFromOrientationUntilConditionMet(GridDirection.L, grid => grid.piece !== null);
+grid.getGridByDirectionFromOrientationUntilConditionMet(GridDirection.R, grid => grid.piece !== null, GridOrientation.FBLR); // use orientation only one times
 ```
