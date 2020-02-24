@@ -11,7 +11,7 @@ npm install --save gridboard
 Also available UMD package defines a ```window.gridboard``` global variable.
 Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@1.1.1/dist/gridboard.js
 
-### Create A Chess Board (TypeScript)
+### Create A Chess Board (use TypeScript)
 
 ```typescript
 import { GridBoard } from "gridboard";
@@ -27,122 +27,47 @@ interface Chess {
 let board = new GridBoard<Chess>(8, 8);
 ```
 
-### Place Chess On Board
+### Create A Chess Board (use JavaScript)
 
-Chess can store in ```grid.piece```, default is ```null```，means empty
+#### In Node.js
 
 ```javascript
-// place white pawn on A2
-let gridAtA2 = board.getGridByAbsoluteCoordinate(0, 1);
+const { GridBoard } = require("gridboard");
 
-let whitePawn = {
-    color: "white",
-    type: "pawn"
-};
-
-gridAtA2.piece = whitePawn;
-
-// place white rook on A1
-let gridAtA1 = gridAtA2.getGridByRelativeCoordinate(0, -1);
-
-let whiteRook = {
-    color: "white",
-    type: "rook"
-};
-
-gridAtA1.piece = whiteRook;
+let board = new GridBoard(8, 8);
 ```
 
-### Get Grid By Use GridDirection
-
-common direction provided  
-
-|    |    |    |    |    |
-|:--:|:--:|:--:|:--:|:--:|
-|FFLL| FFL|  FF| FFR|FFRR|
-| FLL|  FL|   F|  FR| FRR|
-|  LL|   L|   C|   R|  RR|
-| BLL|  BL|   B|  BR| BRR|
-|BBLL| BBL|  BB| BBR|BBRR|
-
-C: current grid
-F: forward of grid  
-B: backward of grid  
-R: rightward of grid  
-L: leftward of grid  
-
-Format(HEX): 0xFBLR, 0x5000 means forward 5 units of grid
+#### In Browser (use RequireJS)
 
 ```javascript
-let gridAtE1 = board.getGridByAbsoluteCoordinate(4, 0); // white king placed
+require(["https://unpkg.com/gridboard@1.1.1/dist/gridboard"], function (gridboard) {
+    var GridBoard = gridboard.GridBoard;
 
-// backward of king
-gridAtE1.getGridByDirection(GridDirection.B);
-
-let gridAtB1 = board.getGridByAbsoluteCoordinate(1, 0); // white knight placed
-
-// knight possible moves
-gridAtB1.getGridByDirection(GridDirection.BRR);
-gridAtB1.getGridByDirection(GridDirection.BBR);
-gridAtB1.getGridByDirection(GridDirection.BBL);
-
-//     A   B   C   D  
-//   +---+---+---+---+
-// 1 |   | * |   |   |
-// 2 |   |   |   |BRR|
-// 3 |BBL|   |BBR|   |
-//   +---+---+---+---+
+    var board = new GridBoard(8, 8);
+});
 ```
 
-### Board Orientation By GridOrientation
+#### In Modern Browser
 
-common orientation provided
+Add this tag in your html file's ```<head>``` tag
 
-S: board x-axis and y-axis will swap  
-X: x-axis number is order by descending  
-Y: y-axis number is order by descending  
-
-Format(BIN): 0bSXY, 0b100 means two axis need swap
-
-refer to [Get Grid By Use GridDirection](#get-grid-by-use-griddirection)
+```html
+<script src="https://unpkg.com/gridboard@1.1.1/dist/gridboard.js"></script>
+```
 
 ```javascript
-board.orientation = GridOrientation.FBLR; // default
+const { GridBoard } = window["gridboard"];
 
-// FBLR:
-//     A   B   C  
-//   +---+---+---+
-// 1 |   |   |   |
-// 2 |   |   |   |
-// 3 |   |   |   |
-//   +---+---+---+
+let board = new GridBoard(8, 8);
+```
 
-board.orientation = GridOrientation.BFLR; // chess board coordinate
+#### In Browser Of Early Version (Like Internet Explorer, IE)
 
-// BFLR:
-//     A   B   C  
-//   +---+---+---+
-// 3 |   |   |   |
-// 2 |   |   |   |
-// 1 |   |   |   |
-//   +---+---+---+
+if your JavaScript version is early than 5th edition, you will need add polyfill for ```Array.prototype.map``` by this link's sample:
+https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/map#Polyfill
 
-let gridAtE1 = board.getGridByAbsoluteCoordinate(4, 0); // white king placed
+```javascript
+var GridBoard = window["gridboard"].GridBoard;
 
-// forward of king
-gridAtE1.getGridByDirectionFromOrientation(GridDirection.F);
-
-let gridAtB1 = board.getGridByAbsoluteCoordinate(1, 0); // white knight placed
-
-// knight possible moves
-gridAtB1.getGridByDirectionFromOrientation(GridDirection.FRR);
-gridAtB1.getGridByDirectionFromOrientation(GridDirection.FFR);
-gridAtB1.getGridByDirectionFromOrientation(GridDirection.FFL);
-
-//     A   B   C   D  
-//   +---+---+---+---+
-// 3 |FFL|   |FFR|   |
-// 2 |   |   |   |FRR|
-// 1 |   | * |   |   |
-//   +---+---+---+---+
+var board = new GridBoard(8, 8);
 ```
