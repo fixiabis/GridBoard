@@ -9,7 +9,7 @@ npm install --save gridboard
 ```
 
 Also available UMD package defines a ```window.gridboard``` global variable.  
-Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@2.0.0/dist/gridboard.js
+Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@2.0.1/dist/gridboard.js
 
 ### Create A Chess Board (use TypeScript)
 
@@ -40,36 +40,25 @@ let board = new GridBoard(8, 8);
 #### In Browser (use RequireJS)
 
 ```javascript
-require(["https://unpkg.com/gridboard@2.0.0/dist/gridboard"], function (gridboard) {
+require(["https://unpkg.com/gridboard@2.0.1/dist/gridboard"], function (gridboard) {
     var GridBoard = gridboard.GridBoard;
 
     var board = new GridBoard(8, 8);
 });
 ```
 
-#### In Modern Browser
+#### In Browser
 
 Add this tag in your html file's ```<head>``` tag
 
 ```html
-<script src="https://unpkg.com/gridboard@2.0.0/dist/gridboard.js"></script>
+<script src="https://unpkg.com/gridboard@2.0.1/dist/gridboard.js"></script>
 ```
 
 ```javascript
 const { GridBoard } = window["gridboard"];
 
 let board = new GridBoard(8, 8);
-```
-
-#### In Browser Of Early Version (Like Internet Explorer, IE)
-
-if your JavaScript version is early than 5th edition, you may add polyfill for ```Array.prototype.map``` by this link's sample:
-https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/map#Polyfill
-
-```javascript
-var GridBoard = window["gridboard"].GridBoard;
-
-var board = new GridBoard(8, 8);
 ```
 
 ### Place Chess On Grid
@@ -127,6 +116,14 @@ interface GridStyle {
 }
 
 let board = new GridBoard<Chess, GridStyle>(8, 8);
+
+board.grids.forEach((grid, i) => {
+    grid.state = {
+        color: i % 2 === 0
+            ? "white"
+            : "black"
+    };
+});
 ```
 
 ### Get Grid By Absolute Coordinate
