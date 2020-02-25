@@ -1,6 +1,6 @@
 import Grid from "./Grid";
 import GridOrientation from "./GridOrientation";
-import { GridBoardSnapshot } from "./type";
+import { GridBoardSnapshot, GridBoardSnapshotOnlyPieces } from "./type";
 import { isObjectAndNotNull, isObjectAndHasKey } from "./utility";
 
 /**
@@ -225,7 +225,7 @@ class GridBoard<GridPiece, GridState = never> {
         return { width, height, grids: gridSnapshots };
     }
 
-    /** 
+    /**
      * 設置棋盤快照
      * @param {GridBoardSnapshot<GridPiece, GridState>} 棋盤快照
      * @return {boolean} 設置是否成功
@@ -295,6 +295,64 @@ class GridBoard<GridPiece, GridState = never> {
             }
             else {
                 delete grid.state;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 取得棋盤快照僅棋子
+     * @return {GridBoardSnapshotOnlyPieces<GridPiece>}
+     */
+    public getSnapshotOnlyPieces(): GridBoardSnapshotOnlyPieces<GridPiece> {
+        let { width, height, grids } = this;
+
+        let gridSnapshots = grids.map(grid => grid.piece);
+
+        return { width, height, pieces: gridSnapshots };
+    }
+
+    /**
+     * 設置棋盤快照僅棋子
+     * @return {boolean} 設置是否成功
+     */
+    public setSnapshotOnlyPieces(snapshot: GridBoardSnapshotOnlyPieces<GridPiece>): boolean {
+        let isSizeNotMatch = (
+            snapshot.width !== this.width ||
+            snapshot.height !== this.height
+        );
+
+        if (isSizeNotMatch) {
+            return false;
+        }
+
+        for (let i = 0; i < this.grids.length; i++) {
+            let grid = this.grids[i];
+            let piece = snapshot.pieces[i];
+
+            if (isObjectAndNotNull(piece) && isObjectAndNotNull(grid.piece)) {
+                if (piece instanceof Array && grid.piece instanceof Array) {
+                    for (let i = 0; i < piece.length; i++) {
+                        grid.piece[i] = piece[i];
+                    }
+
+                    for (let i = piece.length - 1; i < grid.piece.length; i++) {
+                        delete grid.piece[i];
+                    }
+                }
+                else {
+                    for (let field in grid.piece) {
+                        delete grid.piece[field];
+                    }
+
+                    for (let field in piece) {
+                        grid.piece[field] = piece[field];
+                    }
+                }
+            }
+            else {
+                grid.piece = piece;
             }
         }
 

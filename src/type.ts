@@ -34,3 +34,22 @@ export interface GridSnapshot<GridPiece, GridState = never> {
     /** 棋盤格自身的狀態 */
     state?: GridState;
 }
+
+/**
+ * 棋盤快照僅棋子
+ * @typedef {object} GridBoardSnapshotOnlyPieces
+ * @template GridPiece 棋盤格快照上面的棋子類型
+ * @property {number} width 棋盤寬度
+ * @property {number} height 棋盤高度
+ * @property {GridPiece[]} grids 棋盤格快照
+ */
+export interface GridBoardSnapshotOnlyPieces<GridPiece> {
+    /** 棋盤寬度 */
+    width: number;
+
+    /** 棋盤高度 */
+    height: number;
+
+    /** 棋盤格快照 */
+    pieces: (GridPiece | null)[];
+}
