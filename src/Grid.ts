@@ -130,7 +130,7 @@ class Grid<GridPiece, GridState = never> {
      */
     public getGridsByDirectionUntilOverBoundary(direction: number): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
+        let grid: Grid<GridPiece, GridState> | null = this;
 
         while (grid = grid.getGridByDirection(direction)) {
             grids.push(grid);
@@ -149,7 +149,7 @@ class Grid<GridPiece, GridState = never> {
      */
     public getGridsByDirectionFromOrientationUntilOverBoundary(direction: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
+        let grid: Grid<GridPiece, GridState> | null = this;
 
         while (grid = grid.getGridByDirectionFromOrientation(direction, orientation)) {
             grids.push(grid);
@@ -162,19 +162,21 @@ class Grid<GridPiece, GridState = never> {
      * 取得多個棋盤格藉由方向直到條件達成或超出棋盤界線
      * @see GridDirection
      * @param {number} direction 方向
-     * @param {(grid: Grid<GridPiece, GridState>) => boolean} condition 條件判斷
+     * @param {(grid: Grid<GridPiece, GridState>) => boolean} isConditionMet 條件判斷
      * @return {Grid<GridPiece, GridState>[]}
      */
-    public getGridsByDirectionUntilConditionMet(direction: number, condition: (grid: Grid<GridPiece, GridState>) => boolean): Grid<GridPiece, GridState>[] {
+    public getGridsByDirectionUntilConditionMet(direction: number, isConditionMet: (currentGrid: Grid<GridPiece, GridState>, previousGrid: Grid<GridPiece, GridState>) => boolean): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
+        let currentGrid: Grid<GridPiece, GridState> | null = null;
+        let previousGrid: Grid<GridPiece, GridState> | null = this;
 
-        while (grid = grid.getGridByDirection(direction)) {
-            if (condition(grid)) {
+        while (currentGrid = previousGrid.getGridByDirection(direction)) {
+            if (isConditionMet(currentGrid, previousGrid)) {
                 break;
             }
 
-            grids.push(grid);
+            grids.push(currentGrid);
+            previousGrid = currentGrid;
         }
 
         return grids;
@@ -189,16 +191,18 @@ class Grid<GridPiece, GridState = never> {
      * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {Grid<GridPiece, GridState>[]}
      */
-    public getGridsByDirectionFromOrientationUntilConditionMet(direction: number, condition: (grid: Grid<GridPiece, GridState>) => boolean, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
+    public getGridsByDirectionFromOrientationUntilConditionMet(direction: number, isConditionMet: (currentGrid: Grid<GridPiece, GridState>, previousGrid: Grid<GridPiece, GridState>) => boolean, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
+        let currentGrid: Grid<GridPiece, GridState> | null = null;
+        let previousGrid: Grid<GridPiece, GridState> | null = this;
 
-        while (grid = grid.getGridByDirectionFromOrientation(direction, orientation)) {
-            if (condition(grid)) {
+        while (currentGrid = previousGrid.getGridByDirectionFromOrientation(direction, orientation)) {
+            if (isConditionMet(currentGrid, previousGrid)) {
                 break;
             }
 
-            grids.push(grid);
+            grids.push(currentGrid);
+            previousGrid = currentGrid;
         }
 
         return grids;
