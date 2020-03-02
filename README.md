@@ -9,7 +9,7 @@ npm install --save gridboard
 ```
 
 Also available UMD package defines a ```window.gridboard``` global variable.  
-Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@2.0.1/dist/gridboard.js
+Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@2.1.0/dist/gridboard.js
 
 ### Create A Chess Board (use TypeScript)
 
@@ -40,7 +40,7 @@ let board = new GridBoard(8, 8);
 #### In Browser (use RequireJS)
 
 ```javascript
-require(["https://unpkg.com/gridboard@2.0.1/dist/gridboard"], function (gridboard) {
+require(["https://unpkg.com/gridboard@2.1.0/dist/gridboard"], function (gridboard) {
     var GridBoard = gridboard.GridBoard;
 
     var board = new GridBoard(8, 8);
@@ -52,7 +52,7 @@ require(["https://unpkg.com/gridboard@2.0.1/dist/gridboard"], function (gridboar
 Add this tag in your html file's ```<head>``` tag
 
 ```html
-<script src="https://unpkg.com/gridboard@2.0.1/dist/gridboard.js"></script>
+<script src="https://unpkg.com/gridboard@2.1.0/dist/gridboard.js"></script>
 ```
 
 ```javascript
@@ -426,7 +426,7 @@ let board = new GridBoard(3, 2);
 let grid = board.getGridByAbsoluteCoordinate(2, 1);
 
 // until met grid has piece
-grid.getGridByDirectionUntilConditionMet(GridDirection.L, grid => grid.piece !== null);
+grid.getGridByDirectionUntilConditionMet(GridDirection.L, (currentGrid, previousGrid) => currentGrid.piece !== null);
 ```
 
 ### Get Grids By Direction From Orientation Until Condition Met
@@ -439,6 +439,6 @@ board.orientation = GridOrientation.BFRL;
 let grid = board.getGridByAbsoluteCoordinateFromOrientation(2, 1);
 
 // until met grid has piece
-grid.getGridByDirectionFromOrientationUntilConditionMet(GridDirection.L, grid => grid.piece !== null);
-grid.getGridByDirectionFromOrientationUntilConditionMet(GridDirection.R, grid => grid.piece !== null, GridOrientation.FBLR); // use orientation only one times
+grid.getGridByDirectionFromOrientationUntilConditionMet(GridDirection.L, (currentGrid, previousGrid) => currentGrid.piece !== null);
+grid.getGridByDirectionFromOrientationUntilConditionMet(GridDirection.R, (currentGrid, previousGrid) => currentGrid.piece !== null, GridOrientation.FBLR); // use orientation only one times
 ```
