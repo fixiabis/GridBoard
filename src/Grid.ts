@@ -1,5 +1,4 @@
 import GridBoard from "./GridBoard";
-import { isObjectAndHasKey } from "./utility";
 
 /**
  * 棋盤格
@@ -28,7 +27,7 @@ class Grid<GridPiece, GridState = never> {
     constructor(x: number, y: number, board: GridBoard<GridPiece, GridState>) {
         this.x = x;
         this.y = y;
-        this.i = x * board.height + y;
+        this.i = y * board.width + x;
         this.piece = null;
         this.board = board;
     }
@@ -130,7 +129,7 @@ class Grid<GridPiece, GridState = never> {
      */
     public getGridsByDirectionUntilOverBoundary(direction: number): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
+        let grid: Grid<GridPiece, GridState> | null = this;
 
         while (grid = grid.getGridByDirection(direction)) {
             grids.push(grid);
@@ -149,7 +148,7 @@ class Grid<GridPiece, GridState = never> {
      */
     public getGridsByDirectionFromOrientationUntilOverBoundary(direction: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
+        let grid: Grid<GridPiece, GridState> | null = this;
 
         while (grid = grid.getGridByDirectionFromOrientation(direction, orientation)) {
             grids.push(grid);
@@ -167,7 +166,7 @@ class Grid<GridPiece, GridState = never> {
      */
     public getGridsByDirectionUntilConditionMet(direction: number, condition: (grid: Grid<GridPiece, GridState>) => boolean): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
+        let grid: Grid<GridPiece, GridState> | null = this;
 
         while (grid = grid.getGridByDirection(direction)) {
             if (condition(grid)) {
@@ -191,7 +190,7 @@ class Grid<GridPiece, GridState = never> {
      */
     public getGridsByDirectionFromOrientationUntilConditionMet(direction: number, condition: (grid: Grid<GridPiece, GridState>) => boolean, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
         let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this as Grid<GridPiece, GridState>;
+        let grid: Grid<GridPiece, GridState> | null = this;
 
         while (grid = grid.getGridByDirectionFromOrientation(direction, orientation)) {
             if (condition(grid)) {
@@ -210,7 +209,7 @@ class Grid<GridPiece, GridState = never> {
      * @return {boolean} 是否移動成功
      */
     public movePieceToGrid(grid: Grid<GridPiece, GridState>): boolean {
-        if (!isObjectAndHasKey(grid, "piece")) {
+        if (!grid) {
             return false;
         }
 

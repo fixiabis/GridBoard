@@ -1,7 +1,5 @@
 import Grid from "./Grid";
 import GridOrientation from "./GridOrientation";
-import { GridBoardSnapshot, GridBoardSnapshotOnlyPieces } from "./type";
-import { isObjectAndNotNull, isObjectAndHasKey } from "./utility";
 
 /**
  * 棋盤
@@ -59,7 +57,7 @@ class GridBoard<GridPiece, GridState = never> {
             return null;
         }
 
-        let i = x * this.height + y;
+        let i = y * this.width + x;
 
         return this.grids[i];
     }
