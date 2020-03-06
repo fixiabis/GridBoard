@@ -1,5 +1,6 @@
 import Grid from "./Grid";
 import GridOrientation from "./GridOrientation";
+import { SpliceBoundaryDefinition } from "./type";
 
 /**
  * 棋盤
@@ -25,6 +26,8 @@ class GridBoard<GridPiece, GridState = never> {
      */
     public orientation: number = GridOrientation.FBLR;
 
+    public spliceBoundaryDefinitions: SpliceBoundaryDefinition<GridPiece, GridState>[] = [];
+
     constructor(width: number, height: number) {
         this.width = width;
         this.height = height;
@@ -40,9 +43,9 @@ class GridBoard<GridPiece, GridState = never> {
     }
 
     /**
-     * 取得棋盤格藉由絕對座標
-     * @param x X座標值
-     * @param y Y座標值
+     * 取得棋盤格由絕對座標
+     * @param {number} x X座標值
+     * @param {number} y Y座標值
      * @return {Grid<GridPiece, GridState> | null}
      */
     public getGridByAbsoluteCoordinate(x: number, y: number): Grid<GridPiece, GridState> | null {
@@ -54,7 +57,7 @@ class GridBoard<GridPiece, GridState = never> {
         );
 
         if (isOverBoundary) {
-            return null;
+            return this.getGridByAbsoluteCoordinateFromSplicedBoundary(x, y);
         }
 
         let i = y * this.width + x;
@@ -63,9 +66,9 @@ class GridBoard<GridPiece, GridState = never> {
     }
 
     /**
-     * 取得棋盤格藉由絕對座標來自轉向
-     * @param x X座標值
-     * @param y Y座標值
+     * 取得棋盤格由絕對座標來自轉向
+     * @param {number} x X座標值
+     * @param {number} y Y座標值
      * @see GridOrientation
      * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {Grid<GridPiece, GridState> | null}
@@ -92,10 +95,10 @@ class GridBoard<GridPiece, GridState = never> {
 
     /**
      * 取得多個棋盤格藉由絕對座標範圍
-     * @param startX 起始X座標值
-     * @param startY 起始Y座標值
-     * @param endX 結束X座標值
-     * @param endY 結束Y座標值
+     * @param {number} startX 起始X座標值
+     * @param {number} startY 起始Y座標值
+     * @param {number} endX 結束X座標值
+     * @param {number} endY 結束Y座標值
      * @return {(Grid<GridPiece, GridState> | null)[]}
      */
     public getGridsByRangeOfAbsoluteCoordinates(startX: number, startY: number, endX: number, endY: number): (Grid<GridPiece, GridState> | null)[] {
@@ -142,10 +145,10 @@ class GridBoard<GridPiece, GridState = never> {
 
     /**
      * 取得多個棋盤格藉由絕對座標範圍來自轉向
-     * @param startX 起始X座標值
-     * @param startY 起始Y座標值
-     * @param endX 結束X座標值
-     * @param endY 結束Y座標值
+     * @param {number} startX 起始X座標值
+     * @param {number} startY 起始Y座標值
+     * @param {number} endX 結束X座標值
+     * @param {number} endY 結束Y座標值
      * @see GridOrientation
      * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {(Grid<GridPiece, GridState> | null)[]}
@@ -190,6 +193,32 @@ class GridBoard<GridPiece, GridState = never> {
         }
 
         return grids;
+    }
+
+    /**
+     * 取得棋盤格由絕對座標從已拼接的邊界
+     * @param {number} x X座標值
+     * @param {number} y Y座標值
+     * @return {Grid<GridPiece, GridState> | null}
+     */
+    public getGridByAbsoluteCoordinateFromSplicedBoundary(x: number, y: number): Grid<GridPiece, GridState> | null {
+        for (let getGridByAbsoluteCoordinateAndBoard of this.spliceBoundaryDefinitions) {
+            let grid = getGridByAbsoluteCoordinateAndBoard(x, y, this);
+
+            if (grid) {
+                return grid;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * 拼接邊界由定義
+     * @param {SpliceBoundaryDefinition<GridPiece, GridState>} definition 定義
+     */
+    public spliceBoundaryByDefinition(definition: SpliceBoundaryDefinition<GridPiece, GridState>): void {
+        this.spliceBoundaryDefinitions.push(definition);
     }
 }
 

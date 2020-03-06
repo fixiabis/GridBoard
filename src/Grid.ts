@@ -1,4 +1,5 @@
 import GridBoard from "./GridBoard";
+import { GridLike } from "./type";
 
 /**
  * 棋盤格
@@ -212,7 +213,7 @@ class Grid<GridPiece, GridState = never> {
      * @param {Grid<GridPiece, GridState>} grid 棋盤格
      * @return {boolean} 是否移動成功
      */
-    public movePieceToGrid(grid: Grid<GridPiece, GridState>): boolean {
+    public movePieceToGrid(grid: GridLike<GridPiece, GridState>): boolean {
         if (!grid) {
             return false;
         }
