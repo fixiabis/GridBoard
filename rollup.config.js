@@ -21,7 +21,7 @@ export default [
       indent: true
     }
   },
-  /*{
+  {
     input: './src/index.ts',
 
     plugins: [
@@ -55,5 +55,5 @@ export default [
       name: 'gridboard',
       indent: true
     }
-  }*/
+  }
 ];
