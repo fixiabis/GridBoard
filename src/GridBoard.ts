@@ -1,6 +1,5 @@
 import Grid from "./Grid";
 import GridOrientation from "./GridOrientation";
-import { SpliceBoundaryDefinition } from "./type";
 
 /**
  * 棋盤
@@ -22,11 +21,8 @@ class GridBoard<GridPiece, GridState = never> {
 
     /** 棋盤轉向
      * @see GridOrientation
-     * 棋盤轉向
      */
     public orientation: number = GridOrientation.FBLR;
-
-    public spliceBoundaryDefinitions: SpliceBoundaryDefinition<GridPiece, GridState>[] = [];
 
     constructor(width: number, height: number) {
         this.width = width;
@@ -57,7 +53,7 @@ class GridBoard<GridPiece, GridState = never> {
         );
 
         if (isOverBoundary) {
-            return this.getGridByAbsoluteCoordinateFromSplicedBoundary(x, y);
+            return this.getGridByAbsoluteCoordinateOfOverBoundary(x, y);
         }
 
         let i = y * this.width + x;
@@ -201,24 +197,8 @@ class GridBoard<GridPiece, GridState = never> {
      * @param {number} y Y座標值
      * @return {Grid<GridPiece, GridState> | null}
      */
-    public getGridByAbsoluteCoordinateFromSplicedBoundary(x: number, y: number): Grid<GridPiece, GridState> | null {
-        for (let getGridByAbsoluteCoordinateAndBoard of this.spliceBoundaryDefinitions) {
-            let grid = getGridByAbsoluteCoordinateAndBoard(x, y, this);
-
-            if (grid) {
-                return grid;
-            }
-        }
-
+    public getGridByAbsoluteCoordinateOfOverBoundary(x: number, y: number): Grid<GridPiece, GridState> | null {
         return null;
-    }
-
-    /**
-     * 拼接邊界由定義
-     * @param {SpliceBoundaryDefinition<GridPiece, GridState>} definition 定義
-     */
-    public spliceBoundaryByDefinition(definition: SpliceBoundaryDefinition<GridPiece, GridState>): void {
-        this.spliceBoundaryDefinitions.push(definition);
     }
 }
 
