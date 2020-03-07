@@ -9,7 +9,7 @@ npm install --save gridboard
 ```
 
 Also available UMD package defines a ```window.gridboard``` global variable.  
-Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@2.2.0/dist/gridboard.js
+Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@2.3.0/dist/gridboard.js
 
 ### Create A Chess Board (use TypeScript)
 
@@ -40,7 +40,7 @@ let board = new GridBoard(8, 8);
 #### In Browser (use RequireJS)
 
 ```javascript
-require(["https://unpkg.com/gridboard@2.2.0/dist/gridboard"], function (gridboard) {
+require(["https://unpkg.com/gridboard@2.3.0/dist/gridboard"], function (gridboard) {
     var GridBoard = gridboard.GridBoard;
 
     var board = new GridBoard(8, 8);
@@ -52,7 +52,7 @@ require(["https://unpkg.com/gridboard@2.2.0/dist/gridboard"], function (gridboar
 Add this tag in your html file's ```<head>``` tag
 
 ```html
-<script src="https://unpkg.com/gridboard@2.2.0/dist/gridboard.js"></script>
+<script src="https://unpkg.com/gridboard@2.3.0/dist/gridboard.js"></script>
 ```
 
 ```javascript
@@ -442,3 +442,21 @@ let grid = board.getGridByAbsoluteCoordinateFromOrientation(2, 1);
 grid.getGridByDirectionFromOrientationUntilConditionMet(GridDirection.L, (currentGrid, previousGrid) => currentGrid.piece !== null);
 grid.getGridByDirectionFromOrientationUntilConditionMet(GridDirection.R, (currentGrid, previousGrid) => currentGrid.piece !== null, GridOrientation.FBLR); // use orientation only one times
 ```
+
+### Get Grid By Absolute Coordinate Of Over Boundary
+
+```javascript
+import { GridBoard, GridOverBoundaryRedirect } from "gridboard";
+let board = new GridBoard(3, 2);
+board.getGridByAbsoluteCoordinateOfOverBoundary = GridOverBoundaryRedirect.asCyclic;
+
+let grid = board.getGridByAbsoluteCoordinate(-1, -1); // if over boundary will call getGridByAbsoluteCoordinateOfOverBoundary
+```
+
+looks like this:
+
+|       |   y   |       |       |       |
+|:-----:|:-----:|:-----:|:-----:|:-----:|
+|   x   |       |   0   |   1   |   2   |
+|       |   0   |  0,0  |  1,0  |  2,0  |
+|       |   1   |  0,1  |  1,1  |**2,1**|
