@@ -7,7 +7,7 @@
  * @property {GridPiece} piece 棋盤格上面的棋子
  * @property {GridPiece} state 棋盤格自身的狀態
  */
-export interface GridLike<GridPiece, GridState> {
+export interface GridLike<GridPiece = any, GridState = never> {
     /** 棋盤格上面的棋子 */
     piece: GridPiece | null;
 

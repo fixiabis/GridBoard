@@ -6,7 +6,7 @@ import GridOrientation from "./GridOrientation";
  * @template GridPiece 棋盤格上面的棋子類型
  * @template GridState 棋盤格自身的狀態類型，預設為 "never"
  */
-class GridBoard<GridPiece, GridState = never> {
+class GridBoard<GridPiece = any, GridState = never> {
     /** @readonly 棋盤寬度 */
     public readonly width: number;
 

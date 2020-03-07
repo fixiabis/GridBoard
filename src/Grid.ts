@@ -6,7 +6,7 @@ import { GridLike } from "./type";
  * @template GridPiece 棋盤格上面的棋子類型
  * @template GridState 棋盤格自身的狀態類型，預設為 "never"
  */
-class Grid<GridPiece, GridState = never> {
+class Grid<GridPiece = any, GridState = never> {
     /** @readonly X座標軸值 */
     public readonly x: number;
 
