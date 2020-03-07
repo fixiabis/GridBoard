@@ -21,7 +21,6 @@ class GridBoard<GridPiece, GridState = never> {
 
     /** 棋盤轉向
      * @see GridOrientation
-     * 棋盤轉向
      */
     public orientation: number = GridOrientation.FBLR;
 
@@ -40,9 +39,9 @@ class GridBoard<GridPiece, GridState = never> {
     }
 
     /**
-     * 取得棋盤格藉由絕對座標
-     * @param x X座標值
-     * @param y Y座標值
+     * 取得棋盤格由絕對座標
+     * @param {number} x X座標值
+     * @param {number} y Y座標值
      * @return {Grid<GridPiece, GridState> | null}
      */
     public getGridByAbsoluteCoordinate(x: number, y: number): Grid<GridPiece, GridState> | null {
@@ -54,7 +53,7 @@ class GridBoard<GridPiece, GridState = never> {
         );
 
         if (isOverBoundary) {
-            return null;
+            return this.getGridByAbsoluteCoordinateOfOverBoundary(x, y);
         }
 
         let i = y * this.width + x;
@@ -63,9 +62,9 @@ class GridBoard<GridPiece, GridState = never> {
     }
 
     /**
-     * 取得棋盤格藉由絕對座標來自轉向
-     * @param x X座標值
-     * @param y Y座標值
+     * 取得棋盤格由絕對座標來自轉向
+     * @param {number} x X座標值
+     * @param {number} y Y座標值
      * @see GridOrientation
      * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {Grid<GridPiece, GridState> | null}
@@ -92,10 +91,10 @@ class GridBoard<GridPiece, GridState = never> {
 
     /**
      * 取得多個棋盤格藉由絕對座標範圍
-     * @param startX 起始X座標值
-     * @param startY 起始Y座標值
-     * @param endX 結束X座標值
-     * @param endY 結束Y座標值
+     * @param {number} startX 起始X座標值
+     * @param {number} startY 起始Y座標值
+     * @param {number} endX 結束X座標值
+     * @param {number} endY 結束Y座標值
      * @return {(Grid<GridPiece, GridState> | null)[]}
      */
     public getGridsByRangeOfAbsoluteCoordinates(startX: number, startY: number, endX: number, endY: number): (Grid<GridPiece, GridState> | null)[] {
@@ -142,10 +141,10 @@ class GridBoard<GridPiece, GridState = never> {
 
     /**
      * 取得多個棋盤格藉由絕對座標範圍來自轉向
-     * @param startX 起始X座標值
-     * @param startY 起始Y座標值
-     * @param endX 結束X座標值
-     * @param endY 結束Y座標值
+     * @param {number} startX 起始X座標值
+     * @param {number} startY 起始Y座標值
+     * @param {number} endX 結束X座標值
+     * @param {number} endY 結束Y座標值
      * @see GridOrientation
      * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {(Grid<GridPiece, GridState> | null)[]}
@@ -190,6 +189,16 @@ class GridBoard<GridPiece, GridState = never> {
         }
 
         return grids;
+    }
+
+    /**
+     * 取得棋盤格由絕對座標從已拼接的邊界
+     * @param {number} x X座標值
+     * @param {number} y Y座標值
+     * @return {Grid<GridPiece, GridState> | null}
+     */
+    public getGridByAbsoluteCoordinateOfOverBoundary(x: number, y: number): Grid<GridPiece, GridState> | null {
+        return null;
     }
 }
 
