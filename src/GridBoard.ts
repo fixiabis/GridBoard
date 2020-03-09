@@ -192,7 +192,7 @@ class GridBoard<GridPiece = any, GridState = never> {
     }
 
     /**
-     * 取得棋盤格由絕對座標從已拼接的邊界
+     * 取得棋盤格由超界的絕對座標
      * @param {number} x X座標值
      * @param {number} y Y座標值
      * @return {Grid<GridPiece, GridState> | null}
