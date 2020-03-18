@@ -56,7 +56,7 @@ class Grid<GridPiece = any, GridState = never> {
      * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {Grid<GridPiece, GridState> | null}
      */
-    public getGridByDirectionFromOrientation(direction: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState> | null {
+    public getGridByDirectionAndOrientation(direction: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState> | null {
         let isAxisNeedSwap = (0b100 & orientation) >> 2;
         let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
         let isYAxisOrderByDescending = (0b001 & orientation);
@@ -102,7 +102,7 @@ class Grid<GridPiece = any, GridState = never> {
      * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {Grid<GridPiece, GridState> | null}
      */
-    public getGridByRelativeCoordinateFromOrientation(dx: number, dy: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState> | null {
+    public getGridByRelativeCoordinateAndOrientation(dx: number, dy: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState> | null {
         let isAxisNeedSwap = (0b100 & orientation) >> 2;
         let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
         let isYAxisOrderByDescending = (0b001 & orientation);
@@ -147,11 +147,11 @@ class Grid<GridPiece = any, GridState = never> {
      * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {Grid<GridPiece, GridState>[]}
      */
-    public getGridsByDirectionFromOrientationUntilOverBoundary(direction: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
+    public getGridsByDirectionAndOrientationUntilOverBoundary(direction: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
         let grids = [];
         let grid: Grid<GridPiece, GridState> | null = this;
 
-        while (grid = grid.getGridByDirectionFromOrientation(direction, orientation)) {
+        while (grid = grid.getGridByDirectionAndOrientation(direction, orientation)) {
             grids.push(grid);
         }
 
@@ -191,12 +191,12 @@ class Grid<GridPiece = any, GridState = never> {
      * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {Grid<GridPiece, GridState>[]}
      */
-    public getGridsByDirectionFromOrientationUntilConditionMet(direction: number, isConditionMet: (currentGrid: Grid<GridPiece, GridState>, previousGrid: Grid<GridPiece, GridState>) => boolean, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
+    public getGridsByDirectionAndOrientationUntilConditionMet(direction: number, isConditionMet: (currentGrid: Grid<GridPiece, GridState>, previousGrid: Grid<GridPiece, GridState>) => boolean, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
         let grids = [];
         let currentGrid: Grid<GridPiece, GridState> | null = null;
         let previousGrid: Grid<GridPiece, GridState> | null = this;
 
-        while (currentGrid = previousGrid.getGridByDirectionFromOrientation(direction, orientation)) {
+        while (currentGrid = previousGrid.getGridByDirectionAndOrientation(direction, orientation)) {
             if (isConditionMet(currentGrid, previousGrid)) {
                 break;
             }

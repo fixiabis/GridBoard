@@ -69,7 +69,7 @@ class GridBoard<GridPiece = any, GridState = never> {
      * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {Grid<GridPiece, GridState> | null}
      */
-    public getGridByAbsoluteCoordinateFromOrientation(x: number, y: number, orientation: GridOrientation = this.orientation): Grid<GridPiece, GridState> | null {
+    public getGridByAbsoluteCoordinateAndOrientation(x: number, y: number, orientation: GridOrientation = this.orientation): Grid<GridPiece, GridState> | null {
         let isAxisNeedSwap = (0b100 & orientation) >> 2;
         let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
         let isYAxisOrderByDescending = (0b001 & orientation);
@@ -149,7 +149,7 @@ class GridBoard<GridPiece = any, GridState = never> {
      * @param {number} orientation 轉向，預設為棋盤轉向
      * @return {(Grid<GridPiece, GridState> | null)[]}
      */
-    public getGridsByRangeOfAbsoluteCoordinatesFromOrientation(startX: number, startY: number, endX: number, endY: number, orientation: GridOrientation = this.orientation): (Grid<GridPiece, GridState> | null)[] {
+    public getGridsByRangeOfAbsoluteCoordinatesAndOrientation(startX: number, startY: number, endX: number, endY: number, orientation: GridOrientation = this.orientation): (Grid<GridPiece, GridState> | null)[] {
         let grids = [];
 
         let isXAxisOrderByDescending = startX > endX;
@@ -159,14 +159,14 @@ class GridBoard<GridPiece = any, GridState = never> {
             if (isYAxisOrderByDescending) {
                 for (let x = startX; x >= endX; x--) {
                     for (let y = startY; y >= endY; y--) {
-                        grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+                        grids.push(this.getGridByAbsoluteCoordinateAndOrientation(x, y, orientation));
                     }
                 }
             }
             else {
                 for (let x = startX; x >= endX; x--) {
                     for (let y = startY; y <= endY; y++) {
-                        grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+                        grids.push(this.getGridByAbsoluteCoordinateAndOrientation(x, y, orientation));
                     }
                 }
             }
@@ -175,14 +175,14 @@ class GridBoard<GridPiece = any, GridState = never> {
             if (isYAxisOrderByDescending) {
                 for (let x = startX; x <= endX; x++) {
                     for (let y = startY; y >= endY; y--) {
-                        grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+                        grids.push(this.getGridByAbsoluteCoordinateAndOrientation(x, y, orientation));
                     }
                 }
             }
             else {
                 for (let x = startX; x <= endX; x++) {
                     for (let y = startY; y <= endY; y++) {
-                        grids.push(this.getGridByAbsoluteCoordinateFromOrientation(x, y, orientation));
+                        grids.push(this.getGridByAbsoluteCoordinateAndOrientation(x, y, orientation));
                     }
                 }
             }
