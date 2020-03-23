@@ -9,7 +9,7 @@ npm install --save gridboard
 ```
 
 Also available UMD package defines a ```window.gridboard``` global variable.  
-Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@3.0.0/dist/gridboard.js
+Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@3.0.2/dist/gridboard.js
 
 ### Create A Empty Chess Board (use TypeScript)
 
@@ -40,7 +40,7 @@ var board = new GridBoard(8, 8);
 #### In Browser (use RequireJS)
 
 ```javascript
-require(["https://unpkg.com/gridboard@3.0.0/dist/gridboard"], function (gridboard) {
+require(["https://unpkg.com/gridboard@3.0.2/dist/gridboard"], function (gridboard) {
     var GridBoard = gridboard.GridBoard;
 
     var board = new GridBoard(8, 8);
@@ -52,7 +52,7 @@ require(["https://unpkg.com/gridboard@3.0.0/dist/gridboard"], function (gridboar
 Add this tag in your html file's ```<head>``` tag
 
 ```html
-<script src="https://unpkg.com/gridboard@3.0.0/dist/gridboard.js"></script>
+<script src="https://unpkg.com/gridboard@3.0.2/dist/gridboard.js"></script>
 ```
 
 ```javascript
