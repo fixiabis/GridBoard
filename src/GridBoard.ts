@@ -1,7 +1,5 @@
 import Grid from "./Grid";
-import Direction from "./Direction";
-
-type Coordinate = Direction;
+import { Vector } from "./Direction";
 
 class GridBoard<GridPiece = any, GridState = never> {
     public readonly width: number;
@@ -21,9 +19,9 @@ class GridBoard<GridPiece = any, GridState = never> {
     }
 
     public getGridByAbsoluteCoordinate(x: number, y: number): Grid<GridPiece, GridState> | null;
-    public getGridByAbsoluteCoordinate(coordinate: Coordinate): Grid<GridPiece, GridState> | null;
-    public getGridByAbsoluteCoordinate(x: number | Coordinate, y?: number): Grid<GridPiece, GridState> | null {
-        if (y === undefined || typeof x !== "number") {
+    public getGridByAbsoluteCoordinate(coordinate: Vector): Grid<GridPiece, GridState> | null;
+    public getGridByAbsoluteCoordinate(x: number | Vector, y?: number): Grid<GridPiece, GridState> | null {
+        if (y === undefined || typeof x === "object") {
             return this.getGridByAbsoluteCoordinate(...x as [number, number]);
         }
 
@@ -46,7 +44,7 @@ class GridBoard<GridPiece = any, GridState = never> {
 interface GridBoard<GridPiece, GridState> {
     getGridAt: {
         (x: number, y: number): Grid<GridPiece, GridState> | null;
-        (coordinate: Coordinate): Grid<GridPiece, GridState> | null;
+        (coordinate: Vector): Grid<GridPiece, GridState> | null;
     };
 }
 

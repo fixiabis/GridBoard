@@ -139,6 +139,10 @@ var gridAtF3 = gridAtG2.getGridTo([-1, 1]); // shortcut, also can pass array
 Refer to [previous section](#get-grid-by-relative-coordinate), relative coordinate also can use direction to express
 
 ```typescript
+import { Direction } from "gridboard";
+```
+
+```typescript
 // F = y - 1
 // B = y + 1
 // L = x - 1
@@ -146,4 +150,38 @@ Refer to [previous section](#get-grid-by-relative-coordinate), relative coordina
 // ex. FFL = [-1, -2]
 var gridAtD4 = gridAtD5.getGridByRelativeCoordinate(Direction("F"));
 var gridAtF3 = gridAtG2.getGridTo(Direction`BL`); // also can use template string
+```
+
+### Use Orientation
+
+Change Board's Orientation, is really useful for move define.
+
+```typescript
+import { useOrientation, Orientation } from "gridboard";
+
+// default like this:
+//   F   |   | 0 | 1 |
+// L   R | 0 |   |   |
+//   B   | 1 |   |   |
+var blackSide = useOrientation(board, Orientation.FBLR);
+
+// useOrientation can be:
+//   B   |   | 1 | 0 |
+// R   L | 1 |   |   |
+//   F   | 0 |   |   |
+var whiteSide = useOrientation(board, Orientation.BFRL);
+
+(([absoluteCoordinate, relativeCoordinate, Direction]) => {
+    var gridAtA7 = board.getGridAt(absoluteCoordinate(0, 6));
+    var gridAtA6 = gridAtA7.getGridTo(Direction`F`);
+    gridAtA6.piece = gridAtA7.piece;
+    delete gridAtA7.piece;
+})(blackSide);
+
+(([absoluteCoordinate, relativeCoordinate, Direction]) => {
+    var gridAtH2 = board.getGridAt(absoluteCoordinate(0, 6));
+    var gridAtH3 = gridAtH2.getGridTo(Direction`F`);
+    gridAtH3.piece = gridAtH2.piece;
+    delete gridAtH2.piece;
+})(whiteSide);
 ```

@@ -1,5 +1,5 @@
 import GridBoard from "./GridBoard";
-import Direction from "./Direction";
+import { Vector } from "./Direction";
 
 class Grid<GridPiece = any, GridState = never> {
     public i: number;
@@ -17,9 +17,9 @@ class Grid<GridPiece = any, GridState = never> {
     }
 
     public getGridByRelativeCoordinate(dx: number, dy: number): Grid<GridPiece, GridState> | null;
-    public getGridByRelativeCoordinate(direction: Direction): Grid<GridPiece, GridState> | null;
-    public getGridByRelativeCoordinate(dx: number | Direction, dy?: number): Grid<GridPiece, GridState> | null {
-        if (dy === undefined || typeof dx !== "number") {
+    public getGridByRelativeCoordinate(direction: Vector): Grid<GridPiece, GridState> | null;
+    public getGridByRelativeCoordinate(dx: number | Vector, dy?: number): Grid<GridPiece, GridState> | null {
+        if (dy === undefined || typeof dx === "object") {
             return this.getGridByRelativeCoordinate(...dx as [number, number]);
         }
 
@@ -33,7 +33,7 @@ class Grid<GridPiece = any, GridState = never> {
 interface Grid<GridPiece, GridState> {
     getGridTo: {
         (x: number, y: number): Grid<GridPiece, GridState> | null;
-        (direction: Direction): Grid<GridPiece, GridState> | null;
+        (direction: Vector): Grid<GridPiece, GridState> | null;
     };
 }
 

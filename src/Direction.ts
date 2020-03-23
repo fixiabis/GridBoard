@@ -1,12 +1,11 @@
-type Direction = readonly [number, number];
+export type Vector = readonly [number, number] | [number, number];
 
-interface DirectionParser {
-    [codes: string]: Direction;
-    (codes: string): Direction;
-    (codes: TemplateStringsArray): Direction;
+export interface DirectionParser {
+    [codes: string]: Vector;
+    (codes: string | TemplateStringsArray): Vector;
 }
 
-const Direction = function (codes: string | TemplateStringsArray): Direction {
+const Direction = function (codes: string | TemplateStringsArray): Vector {
     if (typeof codes !== "string") {
         return Direction(codes[0]);
     }
@@ -42,7 +41,7 @@ const Direction = function (codes: string | TemplateStringsArray): Direction {
         }
     }
 
-    return Direction[codes] = Object.freeze([dx, dy]) as Direction;
+    return Direction[codes] = Object.freeze([dx, dy]) as Vector;
 } as DirectionParser;
 
 export default Direction;
