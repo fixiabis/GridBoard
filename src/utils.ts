@@ -34,7 +34,7 @@ export const useOrientation = function (board, orientation) {
             y = board.height - 1 - y;
         }
 
-        return Object.freeze([x, y]) as Vector;
+        return [x, y];
     }
 
     function convertRelativeCoordinate(dx: number, dy: number): Vector;
@@ -56,7 +56,7 @@ export const useOrientation = function (board, orientation) {
             dy = -dy;
         }
 
-        return Object.freeze([dx, dy]) as Vector;
+        return [dx, dy];
     }
 
     const convertDirection = function (codes: string | TemplateStringsArray) {

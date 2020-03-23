@@ -41,7 +41,7 @@ const Direction = function (codes: string | TemplateStringsArray): Vector {
         }
     }
 
-    return Direction[codes] = Object.freeze([dx, dy]) as Vector;
+    return Direction[codes] = [dx, dy] as Vector;
 } as DirectionParser;
 
 export default Direction;
