@@ -171,17 +171,21 @@ var blackSide = useOrientation(board, Orientation.FBLR);
 //   F   | 0 |   |   |
 var whiteSide = useOrientation(board, Orientation.BFRL);
 
+// in closure
 (([absoluteCoordinate, relativeCoordinate, Direction]) => {
     var gridAtA7 = board.getGridAt(absoluteCoordinate(0, 6));
     var gridAtA6 = gridAtA7.getGridTo(Direction`F`);
     gridAtA6.piece = gridAtA7.piece;
-    delete gridAtA7.piece;
+    gridAtA7.piece = __;
 })(blackSide);
 
-(([absoluteCoordinate, relativeCoordinate, Direction]) => {
-    var gridAtH2 = board.getGridAt(absoluteCoordinate(0, 6));
-    var gridAtH3 = gridAtH2.getGridTo(Direction`F`);
-    gridAtH3.piece = gridAtH2.piece;
-    delete gridAtH2.piece;
-})(whiteSide);
+// classic
+var absoluteCoordinateAsWhiteSide = whiteSide[0];
+var relativeCoordinateAsWhiteSide = whiteSide[1];
+var DirectionAsWhiteSide = whiteSide[2];
+
+var gridAtH2 = board.getGridAt(absoluteCoordinateAsWhiteSide(0, 6));
+var gridAtH3 = gridAtH2.getGridTo(DirectionAsWhiteSide("F"));
+gridAtH3.piece = gridAtH2.piece;
+gridAtH2.piece = __;
 ```
