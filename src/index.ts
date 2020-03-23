@@ -1,8 +1,5 @@
 import Grid from "./Grid";
 import GridBoard from "./GridBoard";
-import GridDirection from "./GridDirection";
-import GridOrientation from "./GridOrientation";
+import Direction from "./Direction";
 
-export * from "./type";
-export * from "./utility";
-export { GridBoard, Grid, GridDirection, GridOrientation };
+export { Grid, GridBoard, Direction };

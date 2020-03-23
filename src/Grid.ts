@@ -1,228 +1,42 @@
 import GridBoard from "./GridBoard";
-import { GridLike } from "./type";
+import Direction from "./Direction";
 
-/**
- * 棋盤格
- * @template GridPiece 棋盤格上面的棋子類型
- * @template GridState 棋盤格自身的狀態類型，預設為 "never"
- */
 class Grid<GridPiece = any, GridState = never> {
-    /** @readonly X座標軸值 */
-    public readonly x: number;
-
-    /** @readonly Y座標軸值 */
-    public readonly y: number;
-
-    /** @readonly 在棋盤中的索引值 */
-    public readonly i: number;
-
-    /** 棋盤格上面的棋子 */
-    public piece: GridPiece | null;
-
-    /** 棋盤格自身的狀態 */
+    public i: number;
+    public x: number;
+    public y: number;
+    public board: GridBoard<GridPiece, GridState>;
+    public piece?: GridPiece;
     public state!: GridState;
 
-    /** @readonly 所在的棋盤 */
-    public readonly board: GridBoard<GridPiece, GridState>;
-
     constructor(x: number, y: number, board: GridBoard<GridPiece, GridState>) {
+        this.i = y * board.width + x;
         this.x = x;
         this.y = y;
-        this.i = y * board.width + x;
-        this.piece = null;
         this.board = board;
     }
 
-    /**
-     * 取得棋盤格藉由方向
-     * @see GridDirection
-     * @param {number} direction 方向
-     * @return {Grid<GridPiece, GridState> | null}
-     */
-    public getGridByDirection(direction: number): Grid<GridPiece, GridState> | null {
-        let f = (0xF000 & direction) >> 12;
-        let b = (0x0F00 & direction) >> 8;
-        let l = (0x00F0 & direction) >> 4;
-        let r = (0x000F & direction);
-
-        return this.getGridByRelativeCoordinate(r - l, b - f);
-    }
-
-    /**
-     * 棋盤棋盤格藉由方向來自轉向
-     * @see GridDirection
-     * @param {number} direction 方向
-     * @see GridOrientation
-     * @param {number} orientation 轉向，預設為棋盤轉向
-     * @return {Grid<GridPiece, GridState> | null}
-     */
-    public getGridByDirectionAndOrientation(direction: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState> | null {
-        let isAxisNeedSwap = (0b100 & orientation) >> 2;
-        let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
-        let isYAxisOrderByDescending = (0b001 & orientation);
-
-        let f = (0xF000 & direction) >> 12;
-        let b = (0x0F00 & direction) >> 8;
-        let l = (0x00F0 & direction) >> 4;
-        let r = (0x000F & direction);
-
-        if (isAxisNeedSwap) {
-            [f, b, l, r] = [l, r, f, b];
+    public getGridByRelativeCoordinate(dx: number, dy: number): Grid<GridPiece, GridState> | null;
+    public getGridByRelativeCoordinate(direction: Direction): Grid<GridPiece, GridState> | null;
+    public getGridByRelativeCoordinate(dx: number | Direction, dy?: number): Grid<GridPiece, GridState> | null {
+        if (dy === undefined || typeof dx !== "number") {
+            return this.getGridByRelativeCoordinate(...dx as [number, number]);
         }
 
-        if (isXAxisOrderByDescending) {
-            [r, l] = [l, r];
-        }
-
-        if (isYAxisOrderByDescending) {
-            [b, f] = [f, b];
-        }
-
-        return this.getGridByRelativeCoordinate(r - l, b - f);
-    }
-
-    /**
-     * 取得棋盤格藉由相對座標
-     * @param {number} dx 相對X座標軸值
-     * @param {number} dy 相對Y座標軸值
-     * @return {Grid<GridPiece, GridState> | null}
-     */
-    public getGridByRelativeCoordinate(dx: number, dy: number): Grid<GridPiece, GridState> | null {
-        let x = this.x + dx;
-        let y = this.y + dy;
+        const x = this.x + dx;
+        const y = this.y + dy;
 
         return this.board.getGridByAbsoluteCoordinate(x, y);
     }
-
-    /**
-     * 取得棋盤格藉由相對座標來自轉向
-     * @param {number} dx 相對X座標軸值
-     * @param {number} dy 相對Y座標軸值
-     * @see GridOrientation
-     * @param {number} orientation 轉向，預設為棋盤轉向
-     * @return {Grid<GridPiece, GridState> | null}
-     */
-    public getGridByRelativeCoordinateAndOrientation(dx: number, dy: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState> | null {
-        let isAxisNeedSwap = (0b100 & orientation) >> 2;
-        let isXAxisOrderByDescending = (0b010 & orientation) >> 1;
-        let isYAxisOrderByDescending = (0b001 & orientation);
-
-        if (isAxisNeedSwap) {
-            [dy, dx] = [dx, dy];
-        }
-
-        if (isXAxisOrderByDescending) {
-            dx = -dx;
-        }
-
-        if (isYAxisOrderByDescending) {
-            dy = -dy;
-        }
-
-        return this.getGridByRelativeCoordinate(dx, dy);
-    }
-
-    /**
-     * 取得多個棋盤格藉由方向直到超出棋盤界線
-     * @see GridDirection
-     * @param {number} direction 方向
-     * @return {Grid<GridPiece, GridState>[]}
-     */
-    public getGridsByDirectionUntilOverBoundary(direction: number): Grid<GridPiece, GridState>[] {
-        let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this;
-
-        while (grid = grid.getGridByDirection(direction)) {
-            grids.push(grid);
-        }
-
-        return grids;
-    }
-
-    /**
-     * 取得多個棋盤格藉由方向來自轉向直到超出棋盤界線
-     * @see GridDirection
-     * @param {number} direction 方向
-     * @see GridOrientation
-     * @param {number} orientation 轉向，預設為棋盤轉向
-     * @return {Grid<GridPiece, GridState>[]}
-     */
-    public getGridsByDirectionAndOrientationUntilOverBoundary(direction: number, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
-        let grids = [];
-        let grid: Grid<GridPiece, GridState> | null = this;
-
-        while (grid = grid.getGridByDirectionAndOrientation(direction, orientation)) {
-            grids.push(grid);
-        }
-
-        return grids;
-    }
-
-    /**
-     * 取得多個棋盤格藉由方向直到條件達成或超出棋盤界線
-     * @see GridDirection
-     * @param {number} direction 方向
-     * @param {(grid: Grid<GridPiece, GridState>) => boolean} isConditionMet 條件判斷
-     * @return {Grid<GridPiece, GridState>[]}
-     */
-    public getGridsByDirectionUntilConditionMet(direction: number, isConditionMet: (currentGrid: Grid<GridPiece, GridState>, previousGrid: Grid<GridPiece, GridState>) => boolean): Grid<GridPiece, GridState>[] {
-        let grids = [];
-        let currentGrid: Grid<GridPiece, GridState> | null = null;
-        let previousGrid: Grid<GridPiece, GridState> | null = this;
-
-        while (currentGrid = previousGrid.getGridByDirection(direction)) {
-            if (isConditionMet(currentGrid, previousGrid)) {
-                break;
-            }
-
-            grids.push(currentGrid);
-            previousGrid = currentGrid;
-        }
-
-        return grids;
-    }
-
-    /**
-     * 取得多個棋盤格藉由方向來自轉向直到條件達成或超出棋盤界線
-     * @see GridDirection
-     * @param {number} direction 方向
-     * @param {(grid: Grid<GridPiece, GridState>) => boolean} condition 條件判斷
-     * @see GridOrientation
-     * @param {number} orientation 轉向，預設為棋盤轉向
-     * @return {Grid<GridPiece, GridState>[]}
-     */
-    public getGridsByDirectionAndOrientationUntilConditionMet(direction: number, isConditionMet: (currentGrid: Grid<GridPiece, GridState>, previousGrid: Grid<GridPiece, GridState>) => boolean, orientation: number = this.board.orientation): Grid<GridPiece, GridState>[] {
-        let grids = [];
-        let currentGrid: Grid<GridPiece, GridState> | null = null;
-        let previousGrid: Grid<GridPiece, GridState> | null = this;
-
-        while (currentGrid = previousGrid.getGridByDirectionAndOrientation(direction, orientation)) {
-            if (isConditionMet(currentGrid, previousGrid)) {
-                break;
-            }
-
-            grids.push(currentGrid);
-            previousGrid = currentGrid;
-        }
-
-        return grids;
-    }
-
-    /**
-     * 移動棋子到棋盤格
-     * @param {Grid<GridPiece, GridState>} grid 棋盤格
-     * @return {boolean} 是否移動成功
-     */
-    public movePieceToGrid(grid: GridLike<GridPiece, GridState>): boolean {
-        if (!grid) {
-            return false;
-        }
-
-        grid.piece = this.piece;
-        this.piece = null;
-
-        return true;
-    }
 }
+
+interface Grid<GridPiece, GridState> {
+    getGridTo: {
+        (x: number, y: number): Grid<GridPiece, GridState> | null;
+        (direction: Direction): Grid<GridPiece, GridState> | null;
+    };
+}
+
+Grid.prototype.getGridTo = Grid.prototype.getGridByRelativeCoordinate;
 
 export default Grid;
