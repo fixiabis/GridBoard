@@ -172,6 +172,17 @@ var blackSide = useOrientation(board, Orientation.FBLR);
 var whiteSide = useOrientation(board, Orientation.BFRL);
 
 // in closure
+
+// result:
+//   A,  B,  C,  D,  E,  F,  G,  H  x / y
+//  WR, WN, WB, WQ, WK, WB, WN, WR,  // 1
+//  WP, WP, WP, WP, WP, WP, WP, WP,  // 2
+//  __, __, __, __, __, __, __, __,  // 3
+//  __, __, __, __, __, __, __, __,  // 4
+//  __, __, __, __, __, __, __, __,  // 5
+//  BP, __, __, __, __, __, __, __,  // 6
+//  __, BP, BP, BP, BP, BP, BP, BP,  // 7
+//  BR, BN, BB, BQ, BK, BB, BN, BR,  // 8
 (([absoluteCoordinate, relativeCoordinate, Direction]) => {
     var gridAtA7 = board.getGridAt(absoluteCoordinate(0, 6));
     var gridAtA6 = gridAtA7.getGridTo(Direction`F`);
@@ -180,6 +191,17 @@ var whiteSide = useOrientation(board, Orientation.BFRL);
 })(blackSide);
 
 // classic
+
+// result(rotated):
+//   H,  G,  F,  E,  D,  C,  B,  A  x / y
+//  BR, BN, BB, BK, BQ, BB, BN, BR,  // 8
+//  BP, BP, BP, BP, BP, BP, BP, __,  // 7
+//  __, __, __, __, __, __, __, BP,  // 6
+//  __, __, __, __, __, __, __, __,  // 5
+//  __, __, __, __, __, __, __, __,  // 4
+//  WP, __, __, __, __, __, __, __,  // 3
+//  __, WP, WP, WP, WP, WP, WP, WP,  // 2
+//  WR, WN, WB, WK, WQ, WB, WN, WR,  // 1
 var absoluteCoordinateAsWhiteSide = whiteSide[0];
 var relativeCoordinateAsWhiteSide = whiteSide[1];
 var DirectionAsWhiteSide = whiteSide[2];
@@ -188,4 +210,15 @@ var gridAtH2 = board.getGridAt(absoluteCoordinateAsWhiteSide(0, 6));
 var gridAtH3 = gridAtH2.getGridTo(DirectionAsWhiteSide("F"));
 gridAtH3.piece = gridAtH2.piece;
 gridAtH2.piece = __;
+
+// result:
+//   A,  B,  C,  D,  E,  F,  G,  H  x / y
+//  WR, WN, WB, WQ, WK, WB, WN, WR,  // 1
+//  WP, WP, WP, WP, WP, WP, WP, __,  // 2
+//  __, __, __, __, __, __, __, WP,  // 3
+//  __, __, __, __, __, __, __, __,  // 4
+//  __, __, __, __, __, __, __, __,  // 5
+//  BP, __, __, __, __, __, __, __,  // 6
+//  __, BP, BP, BP, BP, BP, BP, BP,  // 7
+//  BR, BN, BB, BQ, BK, BB, BN, BR,  // 8
 ```
