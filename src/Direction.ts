@@ -1,11 +1,8 @@
-export type Vector = readonly [number, number] | [number, number];
+import { Coordinate, DirectionParser } from "./interfaces";
 
-export interface DirectionParser {
-    [codes: string]: Vector;
-    (codes: string | TemplateStringsArray): Vector;
-}
+type Direction = Coordinate;
 
-const Direction = function (codes: string | TemplateStringsArray): Vector {
+const Direction = function (codes: string | TemplateStringsArray): Direction {
     if (typeof codes !== "string") {
         return Direction(codes[0]);
     }
@@ -19,29 +16,25 @@ const Direction = function (codes: string | TemplateStringsArray): Vector {
 
     for (let code of codes.split("")) {
         switch (code) {
-            case "F": {
+            case "F":
                 dy--;
                 break;
-            }
 
-            case "B": {
+            case "B":
                 dy++;
                 break;
-            }
 
-            case "L": {
+            case "L":
                 dx--;
                 break;
-            }
 
-            case "R": {
+            case "R":
                 dx++;
                 break;
-            }
         }
     }
 
-    return Direction[codes] = [dx, dy] as Vector;
+    return Direction[codes] = [dx, dy] as Direction;
 } as DirectionParser;
 
 export default Direction;

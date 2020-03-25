@@ -1,5 +1,5 @@
 import Grid from "./Grid";
-import { Vector } from "./Direction";
+import { Coordinate, CoordinateConverter, CoordinateConvert } from "./interfaces";
 
 class GridBoard<GridPiece = any, GridState = never> {
     public readonly width: number;
@@ -18,11 +18,27 @@ class GridBoard<GridPiece = any, GridState = never> {
         }
     }
 
-    public getGridByAbsoluteCoordinate(x: number, y: number): Grid<GridPiece, GridState> | null;
-    public getGridByAbsoluteCoordinate(coordinate: Vector): Grid<GridPiece, GridState> | null;
-    public getGridByAbsoluteCoordinate(x: number | Vector, y?: number): Grid<GridPiece, GridState> | null {
-        if (y === undefined || typeof x === "object") {
-            return this.getGridByAbsoluteCoordinate(...x as [number, number]);
+    public getGridByAbsoluteCoordinate(x: number, y: number, convert?: CoordinateConvert): Grid<GridPiece, GridState> | null;
+    public getGridByAbsoluteCoordinate(x: number, y: number, converter?: CoordinateConverter): Grid<GridPiece, GridState> | null;
+    public getGridByAbsoluteCoordinate(coordinate: Coordinate, convert?: CoordinateConvert): Grid<GridPiece, GridState> | null;
+    public getGridByAbsoluteCoordinate(coordinate: Coordinate, converter?: CoordinateConverter): Grid<GridPiece, GridState> | null;
+    public getGridByAbsoluteCoordinate(x: number | Coordinate, y?: number | CoordinateConverter | CoordinateConvert, converter?: CoordinateConverter | CoordinateConvert): Grid<GridPiece, GridState> | null {
+        if (typeof y !== "number") {
+            converter = y;
+            [x, y] = x as Coordinate;
+        }
+
+        if (typeof x !== "number") {
+            [x, y] = x;
+        }
+
+        if (converter) {
+            if (typeof converter === "object") {
+                [x, y] = converter.convertAbsoluteCoordinate(x, y);
+            }
+            else {
+                [x, y] = converter(x, y);
+            }
         }
 
         const isOverBoundary = (
@@ -44,7 +60,7 @@ class GridBoard<GridPiece = any, GridState = never> {
 interface GridBoard<GridPiece, GridState> {
     getGridAt: {
         (x: number, y: number): Grid<GridPiece, GridState> | null;
-        (coordinate: Vector): Grid<GridPiece, GridState> | null;
+        (coordinate: Coordinate): Grid<GridPiece, GridState> | null;
     };
 }
 
