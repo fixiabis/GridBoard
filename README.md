@@ -216,3 +216,27 @@ gridAtH2.piece = __;
 //  __, BP, BP, BP, BP, BP, BP, BP,  // 7
 //  BR, BN, BB, BQ, BK, BB, BN, BR,  // 8
 ```
+
+
+### Customize Coordinate Converter
+
+Converter only needs 2 methods: convertAbsoluteCoordinate, convertRelativeCoordinate
+
+```typescript
+var board = new GridBoard(3, 3);
+
+var asCyclic = {
+    convertAbsoluteCoordinate(x, y) {
+        x = (x % board.width + board.width) % board.width;
+        y = (y % board.height + board.height) % board.height;
+        return [x, y];
+    },
+    convertRelativeCoordinate(dx, dy) {
+        return [dx, dy]; // no need to change
+    }
+};
+
+var grid = board.getGridAt(-1, -1, asCyclic);
+grid.x === 2; // true
+grid.y === 2; // true
+```
