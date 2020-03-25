@@ -9,7 +9,7 @@ npm install --save gridboard
 ```
 
 Also available UMD package defines a ```window.gridboard``` global variable.  
-Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@3.0.2/dist/gridboard.js
+Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@4.0.0/dist/gridboard.js
 
 ### Create A Empty Chess Board (use TypeScript)
 
@@ -40,7 +40,7 @@ var board = new GridBoard(8, 8);
 #### In Browser (use RequireJS)
 
 ```javascript
-require(["https://unpkg.com/gridboard@3.0.2/dist/gridboard"], function (gridboard) {
+require(["https://unpkg.com/gridboard@4.0.0/dist/gridboard"], function (gridboard) {
     var GridBoard = gridboard.GridBoard;
 
     var board = new GridBoard(8, 8);
@@ -52,7 +52,7 @@ require(["https://unpkg.com/gridboard@3.0.2/dist/gridboard"], function (gridboar
 Add this tag in your html file's ```<head>``` tag
 
 ```html
-<script src="https://unpkg.com/gridboard@3.0.2/dist/gridboard.js"></script>
+<script src="https://unpkg.com/gridboard@4.0.0/dist/gridboard.js"></script>
 ```
 
 ```javascript
@@ -124,19 +124,23 @@ board.grids.forEach((grid, i) => grid.state = colors[i]);
 
 ```typescript
 var gridAtD5 = board.getGridByAbsoluteCoordinate(3, 4);
-var gridAtG2 = board.getGridAt([6, 1]); // shortcut, also can pass array
+var gridAtC6 = board.getGridByAbsoluteCoordinate([2, 5]); // passing array is also available
+var gridAtF4 = board.getGridAt(5, 3); // shortcut
+var gridAtG2 = board.getGridAt([6, 1]);
 ```
 
 ### Get Grid By Relative Coordinate
 
 ```typescript
 var gridAtD4 = gridAtD5.getGridByRelativeCoordinate(0, -1);
-var gridAtF3 = gridAtG2.getGridTo([-1, 1]); // shortcut, also can pass array
+var gridAtE6 = gridAtC6.getGridByRelativeCoordinate([2, 0]); // passing array is also available
+var gridAtE3 = gridAtF4.getGridTo(-1, -1); // shortcut
+var gridAtF3 = gridAtG2.getGridTo([-1, 1]);
 ```
 
 ### Use Direction
 
-Refer to [previous section](#get-grid-by-relative-coordinate), relative coordinate also can use direction to express
+Refer to [previous section](#get-grid-by-relative-coordinate), relative coordinate can use direction to express
 
 ```typescript
 import { Direction } from "gridboard";
@@ -149,31 +153,29 @@ import { Direction } from "gridboard";
 // R = x + 1
 // ex. FFL = [-1, -2]
 var gridAtD4 = gridAtD5.getGridByRelativeCoordinate(Direction("F"));
-var gridAtF3 = gridAtG2.getGridTo(Direction`BL`); // also can use template string
+var gridAtF3 = gridAtG2.getGridTo(Direction`BL`); // template string is also available
 ```
 
-### Use Orientation
+### Use Orientation Coordinate Converter
 
-Change Board's Orientation, is really useful for move define.
+Change Board's Orientation, defining directions will be easy.
 
 ```typescript
-import { useOrientation, Orientation } from "gridboard";
+import { Orientation, OrientationCoordinateConverter } from "gridboard";
 
-// default like this:
+// default look like this:
 //   F   |   | 0 | 1 |
 // L   R | 0 |   |   |
 //   B   | 1 |   |   |
-var blackSide = useOrientation(board, Orientation.FBLR);
+var asBlackSide = new OrientationCoordinateConverter(board, Orientation.FBLR);
 
-// useOrientation can be:
+// can be look like this:
 //   B   |   | 1 | 0 |
 // R   L | 1 |   |   |
 //   F   | 0 |   |   |
-var whiteSide = useOrientation(board, Orientation.BFRL);
+var asWhiteSide = new OrientationCoordinateConverter(board, Orientation.BFRL);
 
-// in closure
-
-// result:
+// the result will look like this:
 //   A,  B,  C,  D,  E,  F,  G,  H  x / y
 //  WR, WN, WB, WQ, WK, WB, WN, WR,  // 1
 //  WP, WP, WP, WP, WP, WP, WP, WP,  // 2
@@ -183,16 +185,12 @@ var whiteSide = useOrientation(board, Orientation.BFRL);
 //  BP, __, __, __, __, __, __, __,  // 6
 //  __, BP, BP, BP, BP, BP, BP, BP,  // 7
 //  BR, BN, BB, BQ, BK, BB, BN, BR,  // 8
-(([absoluteCoordinate, relativeCoordinate, Direction]) => {
-    var gridAtA7 = board.getGridAt(absoluteCoordinate(0, 6));
-    var gridAtA6 = gridAtA7.getGridTo(Direction`F`);
-    gridAtA6.piece = gridAtA7.piece;
-    gridAtA7.piece = __;
-})(blackSide);
+var gridAtA7 = board.getGridAt(0, 6, asBlackSide);
+var gridAtA6 = gridAtA7.getGridTo(Direction`F`, asBlackSide);
+gridAtA6.piece = gridAtA7.piece;
+gridAtA7.piece = __;
 
-// classic
-
-// result(rotated):
+// the result will look like this(rotated):
 //   H,  G,  F,  E,  D,  C,  B,  A  x / y
 //  BR, BN, BB, BK, BQ, BB, BN, BR,  // 8
 //  BP, BP, BP, BP, BP, BP, BP, __,  // 7
@@ -202,12 +200,8 @@ var whiteSide = useOrientation(board, Orientation.BFRL);
 //  WP, __, __, __, __, __, __, __,  // 3
 //  __, WP, WP, WP, WP, WP, WP, WP,  // 2
 //  WR, WN, WB, WK, WQ, WB, WN, WR,  // 1
-var absoluteCoordinateAsWhiteSide = whiteSide[0];
-var relativeCoordinateAsWhiteSide = whiteSide[1];
-var DirectionAsWhiteSide = whiteSide[2];
-
-var gridAtH2 = board.getGridAt(absoluteCoordinateAsWhiteSide(0, 6));
-var gridAtH3 = gridAtH2.getGridTo(DirectionAsWhiteSide("F"));
+var gridAtH2 = board.getGridAt(0, 6, asWhiteSide);
+var gridAtH3 = gridAtH2.getGridTo(Direction("F"), asWhiteSide);
 gridAtH3.piece = gridAtH2.piece;
 gridAtH2.piece = __;
 
