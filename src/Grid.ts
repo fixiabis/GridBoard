@@ -37,13 +37,14 @@ class Grid<GridPiece = any, GridState = never> {
             }
             else {
                 [dx, dy] = converter(dx, dy);
+                converter = undefined;
             }
         }
 
         const x = this.x + dx;
         const y = this.y + dy;
 
-        return this.board.getGridByAbsoluteCoordinate(x, y);
+        return this.board.getGridByAbsoluteCoordinate(x, y, converter);
     }
 }
 
