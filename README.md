@@ -10,6 +10,7 @@ npm install --save gridboard
 
 Also available UMD package defines a ```window.gridboard``` global variable.  
 Can be used for &lt;script&gt; by this link: https://unpkg.com/gridboard@4.1.0/dist/gridboard.js
+or minified version: https://unpkg.com/gridboard@4.1.0/dist/gridboard.min.js
 
 ### Create A Empty Chess Board (use TypeScript)
 
@@ -27,7 +28,7 @@ interface Chess {
 var board = new GridBoard<Chess>(8, 8);
 ```
 
-### Create A Empty Chess Board (use JavaScript)
+### Create An Empty Chess Board (use JavaScript)
 
 #### In Node.js
 
@@ -99,7 +100,7 @@ board.grids.forEach((grid, i) => grid.piece = pieces[i]);
 
 ### Define State On Grid
 
-Define state in ```grid.state```, such like grid's color
+Define state in ```grid.state```, such as like grid's color.
 
 ```typescript
 var W = "white";
@@ -140,7 +141,7 @@ var gridAtF3 = gridAtG2.getGridTo([-1, 1]);
 
 ### Use Direction
 
-Refer to [previous section](#get-grid-by-relative-coordinate), relative coordinate can use direction to express
+Refer to [previous section](#get-grid-by-relative-coordinate), relative coordinate can be expressed by direction.
 
 ```typescript
 import { Direction } from "gridboard";
@@ -244,7 +245,7 @@ grid.y === 2; // true
 
 ### Use Coordinate Convert Function
 
-Refer to [previous section](#use-coordinate-converter), coordinate convert function also available
+Refer to [previous section](#use-coordinate-converter), coordinate convert function is also available
 
 ```typescript
 var board = new GridBoard(3, 3);
